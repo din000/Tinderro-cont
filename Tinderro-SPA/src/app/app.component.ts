@@ -15,6 +15,8 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
     // te 2 linijki sa po to zeby decodedToken ZAWSZE sie tam znajdowal gdyz to jest GLOWNY komponent i ma wladze ktora zawsze dziala
     const token = localStorage.getItem('token');
-    this.authService.decodedToken = this.jwtHelper.decodeToken('token');
+    if (token) {
+      this.authService.decodedToken = this.jwtHelper.decodeToken(token);
+    }
   }
 }
