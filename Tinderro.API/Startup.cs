@@ -33,6 +33,7 @@ namespace Tinderro.API
             services.AddControllers();
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MojePolaczenie")));
             services.AddCors(); // to pozwoli na uzywanie API we front-endzie
+            services.AddTransient<Seed>(); //laduje przykladowe dane
             services.AddScoped<IAuthRepository, AuthRepository>(); // tam gdzie bedzie wylowywany inteerface to wskoczy Authrepository
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                         .AddJwtBearer(options =>{
@@ -47,12 +48,14 @@ namespace Tinderro.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, Seed seeder) // dodajemy tutaj Seed
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            seeder.SeedUsers(); // tutaj odpalamy metode z Seed
 
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()); // to pozwoli na uzywanie API we front-endzie
 

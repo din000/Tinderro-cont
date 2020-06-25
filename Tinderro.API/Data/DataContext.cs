@@ -11,6 +11,7 @@ namespace Tinderro.API.Data
         }
         //public DbSet<Dane> chuj { get; set; }
         public DbSet<User> users { get; set; }
+        public DbSet<Photo> photos { get; set; }
     }
     
 }
