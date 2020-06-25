@@ -1,0 +1,22 @@
+<div class="container mt-5">
+  <div *ngIf="!registerMode" style="text-align: center">
+    <h1>Znajdź swoją drugą dupę</h1>
+    <p class="lead">Poczuj zew dupy</p>
+    <div>
+      <button class="btn btn-primary btn-lg mr-3" (click)="registerToggle()">Rejestracja</button>
+      <button class="btn btn-info btn-lg">wiecej...</button>
+    </div>
+  </div>
+
+ <!-- tutaj bedzie formularz do rejestracji -->
+  <div *ngIf="registerMode" class="container">
+    <div class="row justify-content-center">
+      <div class="col-4 mt-4">
+         <!-- ponizsza linijka przesyla dane do innego komponentu w nawaisach [] i odbiera cos w nawiasach (), w nawiasach() jest parametr ktory przeslalismy z innego komponentu-->
+          <app-register [daneZInnegoKomponentuHOME]="danes" (cancelRegisterMode)="cancelRegisterMode($event)"></app-register>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <p *ngFor="let item of danes">{{ item.id }} | {{ item.username }}</p>     to bylo do wyswietlania-->

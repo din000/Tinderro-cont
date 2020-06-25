@@ -1,0 +1,24 @@
+<form #registerform="ngForm" (ngSubmit)="register()">
+  <h2 class ="text-center text-primary">Zapisz się</h2>
+  <hr>
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Nazwa użytkownika" required name="username" [(ngModel)]="model.username">
+  </div>
+  <div class="form-group">
+    <input class="form-control" type="password" placeholder="Hasło" required name="password" [(ngModel)]="model.password">
+  </div>
+  <div class="form-group">
+    <label for="favouriteSomething">Jakie jest Twoje ulubione cos?</label>
+    <select class="form-control" id="favouriteSomething">
+      <!-- ta linijka importuje dane z innego komponentu i wyswietla w opcjach rozwijanych bl abla -->
+      <option *ngFor="let item of daneZInnegoKomponentuHOME" [value]="item">{{item.username}}</option>
+    </select>
+  </div>
+
+  <div class="form-gorup text-center">
+    <button class="btn btn-success mr-1" type="submit">Zarejestruj</button>
+    <button class="btn btn-default" type="submit" (click)="cancel()">Anuluj</button>
+  </div>
+</form>
+
+
