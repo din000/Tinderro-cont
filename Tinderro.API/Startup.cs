@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using AutoMapper;
 
 namespace Tinderro.API
 {
@@ -30,11 +31,17 @@ namespace Tinderro.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(o => {
+                o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore; // to igoruje petle w petli przy bazie danych jak 1 odwoluje sie do 2 i 2 do 1 i tak w nieskonczonosc
+            });
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MojePolaczenie")));
             services.AddCors(); // to pozwoli na uzywanie API we front-endzie
+            services.AddAutoMapper(typeof(Startup)); // rozwiazanie z overflow XD
             services.AddTransient<Seed>(); //laduje przykladowe dane
+            services.AddScoped<IGenericRepository, GenericRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>(); // tam gdzie bedzie wylowywany inteerface to wskoczy Authrepository
+            
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                         .AddJwtBearer(options =>{
                             options.TokenValidationParameters = new TokenValidationParameters

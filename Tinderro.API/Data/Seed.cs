@@ -17,7 +17,7 @@ namespace Tinderro.API.Data
             _context = context;
         }
 
-        public void SeedUsers()
+        public void SeedUsers()   // tu chyba bylo sciagane z nugeta JwtAngular !!!!!!!!!
         {   
             if (!_context.users.Any())
             {
