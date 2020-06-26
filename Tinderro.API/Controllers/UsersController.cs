@@ -8,7 +8,7 @@ using Tinderro.API.Dtos;
 
 namespace Tinderro.API.Controllers
 {
-    // [Authorize]
+    [Authorize]
     [ApiController] //jezeli zakomentujemy to to juz nie bedzie apicontroller tylko zwykly MVC controller 
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
