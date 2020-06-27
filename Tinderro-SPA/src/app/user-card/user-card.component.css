@@ -1,11 +1,11 @@
 .card img {
     transform: scale(1.0, 1.0);
-    transition-duration: 700ms;
+    transition-duration: 400ms;
     transition-timing-function: ease-in-out;
 }
 .card:hover img {
     transform: scale(1.4, 1.4);
-    transition-duration: 700ms;
+    transition-duration: 400ms;
     transition-timing-function: ease-in-out;
     opacity: 60%;
 }
@@ -26,6 +26,6 @@
     opacity: 70%;
 }
 .animate {
-    transition: all 700ms ease-in-out;
+    transition: all 400ms ease-in-out;
 }
 

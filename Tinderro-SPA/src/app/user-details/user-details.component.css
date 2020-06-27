@@ -1,0 +1,23 @@
+.img-thumbnail {
+    margin: 15px;
+    width: 90%;
+    height: 90%;
+}
+
+.card-body {
+    padding: 0 15px;
+}
+
+.card-fouter {
+    padding: 0 15px;
+    border-top: none;
+    margin-bottom: 15px;
+}
+
+.nav-tabs {
+    border-bottom: 4px solid #dddddd;
+}
+
+.user-table-td {
+    padding: 0 20px;
+}

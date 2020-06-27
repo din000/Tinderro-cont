@@ -30,7 +30,7 @@ export class UserService {
 
   GetUser(id: number): Observable<User> {
     // return this.http.get<User>(this.baseUrl + 'user/' + id, httpOptions);
-    return this.http.get<User>(this.baseUrl + 'user/' + id);
+    return this.http.get<User>(this.baseUrl + 'users/' + id);
   }
 
 }

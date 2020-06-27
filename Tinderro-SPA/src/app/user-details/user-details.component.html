@@ -1,0 +1,117 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-sm-4">
+
+      <!-- lew strona ze zdjeciem -->
+      <div class="card">
+        <img class="card-img-top img-thumbnail" src="{{user.photoUrl}}" alt="{{user.username}}">
+        <div class="card-body">
+          <div>
+            <strong>Imie:</strong>
+            <p>{{user.username}}</p>
+          </div>
+          <div>
+            <strong>Wiek:</strong>
+            <p>{{user.age}}</p>
+          </div>
+          <div>
+            <strong>Ostatnia aktywnosc:</strong>
+            <p>{{user.lastActive}}</p>
+          </div>
+        </div>
+        <div class="card-fouter">
+          <div class="btn-group d-flex">
+            <button class="btn btn-success btn-sm w-50">Like!</button>
+            <button class="btn btn-primary btn-sm w-50">Wiadomosc</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- szzegoly -->
+    <div class="col-sm-8">
+      <div class="card">
+
+        <ul ngbNav #nav="ngbNav" class="nav-tabs">
+          <li ngbNavItem>
+            <a ngbNavLink>Ogolne</a>
+            <ng-template ngbNavContent>
+              <table class="user-table text-dark mt-3" style="width: 100%;">
+                <tr>
+                  <td class="user-table-td" style="width: 50%;">
+                    <h5>Wzrost</h5>
+                    <p>{{user.growth}}</p>
+                  </td>
+                  <td class="user-table-td" style="width: 50%;">
+                    <h5>Stan cywilny</h5>
+                    <p>{{user.martialStatus}}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="user-table-td"  style="width: 50%;">
+                    <h5>Kolor oczu</h5>
+                    <p>{{user.eyeColor}}</p>
+                  </td>
+                  <td class="user-table-td"  style="width: 50%;">
+                    <h5>Wykształcenie</h5>
+                    <p>{{user.education}}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="user-table-td"  style="width: 50%;">
+                    <h5>Kolor włosów</h5>
+                    <p>{{user.hairColor}}</p>
+                  </td>
+                  <td class="user-table-td"  style="width: 50%;">
+                    <h5>Zawód</h5>
+                    <p>{{user.profession}}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="user-table-td"  style="width: 50%;">
+                    <h5>Dzieci</h5>
+                    <p>{{user.children}}</p>
+                  </td>
+                  <td class="user-table-td"  style="width: 50%;">
+                    <h5>Języki obce</h5>
+                    <p>{{user.languages}}</p>
+                  </td>
+                </tr>
+              </table>
+            </ng-template>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink>O mnie</a>
+            <ng-template ngbNavContent>
+              <h5 class="user-table-td mt-3" >Motto życiowe</h5>
+              <p class="user-table-td" >{{user.motto}}</p>
+              <h5 class="user-table-td" >Opis</h5>
+              <p class="user-table-td" >{{user.description}}</p>
+              <h5 class="user-table-td" >Osobowość</h5>
+              <p class="user-table-td" >{{user.personality}}</p>
+              <h5 class="user-table-td" >Szukam</h5>
+              <p class="user-table-td" >{{user.lookingFor}}</p>
+            </ng-template>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink>Zainteresowania</a>
+            <ng-template ngbNavContent>
+              <h5 class="user-table-td mt-3" >Zainteresowania</h5>
+              <p class="user-table-td" >{{user.interests}}</p>
+              <h5 class="user-table-td" >Czas wolny</h5>
+              <p class="user-table-td" >{{user.freeTime}}</p>
+              <h5 class="user-table-td" >Sport</h5>
+              <p class="user-table-td" >{{user.sport}}</p>
+              <h5 class="user-table-td" >Filmy</h5>
+              <p class="user-table-td" >{{user.movies}}</p>
+              <h5 class="user-table-td" >Muzyka</h5>
+              <p class="user-table-td" >{{user.music}}</p>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav"></div>
+
+      </div>
+    </div>
+  </div>
+</div>
