@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
+import { Router } from '@angular/router';
 declare let alertify: any;
 
 @Component({
@@ -11,8 +12,11 @@ export class NavComponent implements OnInit {
 
   model: any = {};    // ten model bedzie uzupelniony w nav.cpomponents.html, dlatego bedize mial .username i .password
 
-  // wstrzykunpm install alertifyjs --savejemy authservice poniewaz on zawiera komunikacje z api
-  constructor(public authService: AuthService) { }  // musi byc public bo w htmlu wywala blad przy wyswietlaniu nazwy
+  // wstrzykujemy authservice poniewaz on zawiera komunikacje z api
+  // npm install alertifyjs --save
+  // musi byc public bo w htmlu wywala blad przy wyswietlaniu nazwy
+  // wstrzukujemy router bo potrzebny do nawigazji
+  constructor(public authService: AuthService, private router: Router) { }
   ngOnInit() {
   }
 
@@ -22,6 +26,8 @@ export class NavComponent implements OnInit {
       alertify.success('Zalogowaleś się do aplikacji');
     }, error => {
       alertify.error('Coś poszło nie tak');
+    }, () => {
+      this.router.navigate(['/użytkownicy']);
     });
   }
   loggedIn() {
@@ -33,6 +39,7 @@ export class NavComponent implements OnInit {
   logOut() {
     localStorage.removeItem('token');
     alertify.message('Zostales wylogowany');
+    this.router.navigate(['/home']);
   }
 
 }

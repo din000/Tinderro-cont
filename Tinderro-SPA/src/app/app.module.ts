@@ -16,6 +16,10 @@ import { LikesComponent } from './likes/likes.component';
 import { MessagesComponent } from './messages/messages.component';
 import { RouterModule } from '@angular/router';
 import { appRoutes } from './route';
+import { AuthGuard } from './_guards/auth.guard';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserCardComponent } from './user-card/user-card.component';
 
 
 export function TokenGetter() { // to jest do globalnej autoryzacji i juz jest ok z odswiezaniem
@@ -31,7 +35,8 @@ export function TokenGetter() { // to jest do globalnej autoryzacji i juz jest o
       RegisterComponent,
       UserListComponent,
       LikesComponent,
-      MessagesComponent
+      MessagesComponent,
+      UserCardComponent
    ],
    imports: [
       BrowserModule,
@@ -45,10 +50,13 @@ export function TokenGetter() { // to jest do globalnej autoryzacji i juz jest o
          }
       }),
       RouterModule.forRoot(appRoutes), // dodaje routing z pliku route.ts
+      BsDropdownModule.forRoot(), // importujemy dropdown z ngx bootstrap
+      NgbModule
    ],
    providers: [
       AuthService,
-      UserService
+      UserService,
+      AuthGuard
    ],
    bootstrap: [
       AppComponent

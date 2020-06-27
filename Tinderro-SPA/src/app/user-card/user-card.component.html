@@ -1,0 +1,34 @@
+<div class="card mb-4">
+
+  <div class="card-body p-2">
+    <h5 class="card-title text-center text-black-50" style="font-size: medium;">
+      <i class="fa fa-user"></i>
+      {{daneZUserList.username}}, {{daneZUserList.age}}
+    </h5>
+  </div>
+
+  
+  <div class="card-img-wrapper">
+    <img src="{{daneZUserList.photoUrl}}" class="card-img-top" alt="{{daneZUserList.username}}">
+  <ul class="list-inline text-center user-icons animate">
+    <li class="list-inline-item">
+      <button class="btn-warning">
+        <i class="fa fa-heart"></i>
+      </button>
+    </li>
+    <li class="list-inline-item">
+      <button class="btn-warning">
+        <i class="fa fa-user"></i>
+      </button>
+    </li>
+    <li class="list-inline-item">
+      <button class="btn-warning">
+        <i class="fa fa-envelope"></i>
+      </button>
+    </li>
+  </ul>
+</div>
+  <div class="card-body p-0">
+    <p class="card-text text-center text-muted">{{daneZUserList.zodiacSign}}</p>
+  </div>
+</div>
