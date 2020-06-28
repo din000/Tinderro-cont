@@ -21,9 +21,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserCardComponent } from './user-card/user-card.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { UserDetailResolver } from './_resolves/user-etail.resolver';
-import { UserListResolver } from './_resolves/user-list.resolver';
 import { UserEditComponent } from './user-edit/user-edit.component';
-import { UserEditResolver } from './_resolves/user-edit.resolver';
+import { UserListResolver } from './_resolves/user-list.resolver';
+import { UserEDITTResolver } from './_resolves/UserEDITT.Resolver';
+import { AlertifyService } from './_services/alertify.service';
+import { PreventUnsaveChanges } from './_guards/prevent-unsavedChanges.guard';
 
 
 export function TokenGetter() { // to jest do globalnej autoryzacji i juz jest ok z odswiezaniem
@@ -41,7 +43,8 @@ export function TokenGetter() { // to jest do globalnej autoryzacji i juz jest o
       LikesComponent,
       MessagesComponent,
       UserCardComponent,
-      UserDetailsComponent
+      UserDetailsComponent,
+      UserEditComponent,
    ],
    imports: [
       BrowserModule,
@@ -66,8 +69,9 @@ export function TokenGetter() { // to jest do globalnej autoryzacji i juz jest o
       AuthGuard,
       UserDetailResolver,
       UserListResolver,
-      UserEditComponent,
-      UserEditResolver,
+      UserEDITTResolver,
+      AlertifyService,
+      PreventUnsaveChanges
    ],
    bootstrap: [
       AppComponent

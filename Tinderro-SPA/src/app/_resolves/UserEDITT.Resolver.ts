@@ -8,7 +8,7 @@ import { AuthService } from '../_services/auth.service';
 declare let alertify: any;
 
 @Injectable()
-export class UserEditResolver implements Resolve<User> {
+export class UserEDITTResolver implements Resolve<User> {
 
     constructor(private userService: UserService,
                 private router: Router,
@@ -21,10 +21,11 @@ export class UserEditResolver implements Resolve<User> {
     // pozniej w route.ts przy konkretnym routingu trzeba dodac po przecinku RESOLVE....
 
     resolve(route: ActivatedRouteSnapshot): Observable<User> {
+        // console.log(this.authService.decodedToken);
         return this.userService.GetUser(this.authService.decodedToken.nameid).pipe(
             catchError(error => {
                 alertify.error('Problem z pobraniem danych');
-                this.router.navigate(['']);
+                this.router.navigate(['/użytkownicy']);
                 return of(null);
             })
         );

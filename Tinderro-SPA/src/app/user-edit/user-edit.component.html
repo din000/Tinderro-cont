@@ -1,3 +1,154 @@
-<p>
-  user-edit works!
-</p>
+<div class="container mt-1">
+    <div class="row mt-3">
+        <div class="col-sm-4">
+            <h1 class="text-dark">Edytuj profil</h1>
+        </div>
+        <div *ngIf="editform.dirty" class="col-sm-8">
+            <div class="alert alert-info">
+                <p class="mt-2"><strong>Uwaga: </strong>Dokonales zmian, zapisz je!</p>
+            </div>        
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+  
+        <!-- lew strona ze zdjeciem -->
+        <div class="card">
+          <img class="card-img-top img-thumbnail" src="{{user.photoUrl}}" alt="{{user.username}}">
+          <div class="card-body">
+            <div>
+              <strong>Imie:</strong>
+              <p>{{user.username}}</p>
+            </div>
+            <div>
+              <strong>Wiek:</strong>
+              <p>{{user.age}}</p>
+            </div>
+            <div>
+              <strong>Ostatnia aktywnosc:</strong>
+              <p>{{user.lastActive}}</p>
+            </div>
+          </div>
+          <div class="card-fouter">
+              <button class="btn btn-primary btn-sm w-100" form="editForm" [disabled]="!editform.dirty">Zapisz zmiany</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- szzegoly -->
+      <div class="col-sm-8">
+        <div class="card">
+            <form #editform="ngForm" id="editForm" (ngSubmit)="updateUser()">
+   
+                    <ul ngbNav #nav="ngbNav" class="nav-tabs">
+                        <li ngbNavItem>
+                        <a ngbNavLink>Informacje</a>
+                        <ng-template ngbNavContent>
+                            <table class="user-table text-dark mt-3" style="width: 100%;">
+                            <tr>
+                                <td class="user-table-td" style="width: 50%;">
+                                <h5>Wzrost</h5>
+                                <textarea class="form-control" name="growth" rows="1" [(ngModel)]="user.growth"></textarea>
+                                </td>
+                                <td class="user-table-td" style="width: 50%;">
+                                <h5>Stan cywilny</h5>
+                                <textarea class="form-control" name="martialStatus" rows="1" [(ngModel)]="user.martialStatus"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="user-table-td"  style="width: 50%;">
+                                <h5>Kolor oczu</h5>
+                                <textarea class="form-control" name="eyeColor" rows="1" [(ngModel)]="user.eyeColor"></textarea>
+                                </td>
+                                <td class="user-table-td"  style="width: 50%;">
+                                <h5>Wykształcenie</h5>
+                                <textarea class="form-control" name="education" rows="1" [(ngModel)]="user.education"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="user-table-td"  style="width: 50%;">
+                                <h5>Kolor włosów</h5>
+                                <textarea class="form-control" name="hairColor" rows="1" [(ngModel)]="user.hairColor"></textarea>
+                                </td>
+                                <td class="user-table-td"  style="width: 50%;">
+                                <h5>Zawód</h5>
+                                <textarea class="form-control" name="profession" rows="1" [(ngModel)]="user.profession"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="user-table-td"  style="width: 50%;">
+                                <h5>Dzieci</h5>
+                                <textarea class="form-control" name="children" rows="1" [(ngModel)]="user.children"></textarea>
+                                </td>
+                                <td class="user-table-td"  style="width: 50%;">
+                                <h5>Języki obce</h5>
+                                <textarea class="form-control" name="languages" rows="1" [(ngModel)]="user.languages"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="user-table-td"  style="width: 50%;">
+                                <h5>Miasto</h5>
+                                <textarea class="form-control" name="city" rows="1" [(ngModel)]="user.city"></textarea>
+                                </td>
+                                <td class="user-table-td"  style="width: 50%;">
+                                <h5>Kraj</h5>
+                                <textarea class="form-control" name="country" rows="1" [(ngModel)]="user.country"></textarea>
+                                </td>
+                            </tr>
+                            </table>
+                        </ng-template>
+                        </li>
+                        <li ngbNavItem>
+                        <a ngbNavLink>O mnie</a>
+                        <ng-template ngbNavContent>
+                            <h5 class="user-table-td mt-3" >Motto życiowe</h5>
+                            <textarea class="form-control" name="motto" rows="2" [(ngModel)]="user.motto"></textarea>
+                            <h5 class="user-table-td" >Opis</h5>
+                            <textarea class="form-control" name="description" rows="2" [(ngModel)]="user.description"></textarea>
+                            <h5 class="user-table-td" >Osobowość</h5>
+                            <textarea class="form-control" name="personality" rows="2" [(ngModel)]="user.personality"></textarea>
+                            <h5 class="user-table-td" >Szukam</h5>
+                            <textarea class="form-control" name="lookingFor" rows="2" [(ngModel)]="user.lookingFor"></textarea>
+                        </ng-template>
+                        </li>
+                        <li ngbNavItem>
+                        <a ngbNavLink>Zainteresowania</a>
+                        <ng-template ngbNavContent>
+                            <h5 class="user-table-td mt-3" >Zainteresowania</h5>
+                            <textarea class="form-control" name="interests" rows="1" [(ngModel)]="user.interests"></textarea>
+                            <h5 class="user-table-td" >Czas wolny</h5>
+                            <textarea class="form-control" name="freeTime" rows="1" [(ngModel)]="user.freeTime"></textarea>
+                            <h5 class="user-table-td" >Sport</h5>
+                            <textarea class="form-control" name="sport" rows="1" [(ngModel)]="user.sport"></textarea>
+                            <h5 class="user-table-td" >Filmy</h5>
+                            <textarea class="form-control" name="movies" rows="1" [(ngModel)]="user.movies"></textarea>
+                            <h5 class="user-table-td" >Muzyka</h5>
+                            <textarea class="form-control" name="music" rows="1" [(ngModel)]="user.music"></textarea>
+                        </ng-template>
+                        </li>
+                        <li ngbNavItem>
+                        <a ngbNavLink>Zdjecia</a>
+                        <ng-template ngbNavContent>
+                            Edycja zdjec do zrobienia !
+                            <!-- <ngb-carousel *ngFor="let item of images">
+                            <ng-template ngbSlide>
+                                <div class="picsum-img-wrapper">
+                                <img class="img-thumbnail" [src]="item.url" alt="">
+                                </div>
+                                <div class="carousel-caption">
+                                <h3>{{item.dateAdded}}</h3>
+                                <p>{{item.description}}</p>
+                                </div>
+                            </ng-template>
+                            </ngb-carousel> -->
+                                                
+                        </ng-template>
+                        </li>
+                    </ul>
+            </form>
+          <div [ngbNavOutlet]="nav"></div>
+  
+        </div>
+      </div>
+    </div>
+  </div>
