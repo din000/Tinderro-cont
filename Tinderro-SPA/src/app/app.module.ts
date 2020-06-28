@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-
 import { AppComponent } from './app.component';
 import { DaneComponent } from './dane/dane.component';
 import { NavComponent } from './nav/nav.component';
@@ -21,6 +20,10 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserCardComponent } from './user-card/user-card.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
+import { UserDetailResolver } from './_resolves/user-etail.resolver';
+import { UserListResolver } from './_resolves/user-list.resolver';
+import { UserEditComponent } from './user-edit/user-edit.component';
+import { UserEditResolver } from './_resolves/user-edit.resolver';
 
 
 export function TokenGetter() { // to jest do globalnej autoryzacji i juz jest ok z odswiezaniem
@@ -60,7 +63,11 @@ export function TokenGetter() { // to jest do globalnej autoryzacji i juz jest o
    providers: [
       AuthService,
       UserService,
-      AuthGuard
+      AuthGuard,
+      UserDetailResolver,
+      UserListResolver,
+      UserEditComponent,
+      UserEditResolver,
    ],
    bootstrap: [
       AppComponent

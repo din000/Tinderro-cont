@@ -1,4 +1,7 @@
-<div class="container mt-4">
+<div class="container mt-1">
+  <div class="row ml-2">
+    <h1 class="text-dark">Profil {{user.username}}</h1>
+  </div>
   <div class="row">
     <div class="col-sm-4">
 
@@ -106,6 +109,24 @@
               <p class="user-table-td" >{{user.movies}}</p>
               <h5 class="user-table-td" >Muzyka</h5>
               <p class="user-table-td" >{{user.music}}</p>
+            </ng-template>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink>Zdjecia</a>
+            <ng-template ngbNavContent>
+
+              <ngb-carousel *ngFor="let item of images">
+                <ng-template ngbSlide>
+                  <div class="picsum-img-wrapper">
+                    <img class="img-thumbnail" [src]="item.url" alt="">
+                  </div>
+                  <div class="carousel-caption">
+                    <h3>{{item.dateAdded}}</h3>
+                    <p>{{item.description}}</p>
+                  </div>
+                </ng-template>
+              </ngb-carousel>
+                                  
             </ng-template>
           </li>
         </ul>

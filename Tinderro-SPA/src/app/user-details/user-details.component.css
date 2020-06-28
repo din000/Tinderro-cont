@@ -21,3 +21,8 @@
 .user-table-td {
     padding: 0 20px;
 }
+
+.picsum-img-wrapper {
+    width: 105%;
+    height:105%;
+}
