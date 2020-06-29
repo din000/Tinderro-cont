@@ -27,7 +27,7 @@ namespace Tinderro.API.Dtos
         public string Interests { get; set; }       // Zainteresowania
         public string FreeTime { get; set; }        // Czas wolny
         public string Sport { get; set; }           // Sport
-        public string Movies { get; set; }          // Filmy
+        public string Movies { get; set; }          // Filmyc
         public string Music { get; set; }           // Muzyka
 
     }

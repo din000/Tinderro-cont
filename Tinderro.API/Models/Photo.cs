@@ -9,6 +9,7 @@ namespace Tinderro.API.Models
         public string Description { get; set; }     // Opis
         public DateTime DateAdded { get; set; }     // Data dodania
         public bool IsMain { get; set; }            // Czy zdjęcie jest główne
+        public string Public_id { get; set; }       // id zdjecia z chmury
         
         // te 2 linijki powiazuja zdjecia z konkretnym uzytkownikiem
         // pozwoli to na usuwanie zdj jezeli usuniemy uzytkownika

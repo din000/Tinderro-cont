@@ -40,6 +40,7 @@ namespace Tinderro.API
             });
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MojePolaczenie")));
             services.AddCors(); // to pozwoli na uzywanie API we front-endzie
+            services.Configure<ClaudinarySettings>(Configuration.GetSection("ClaudinarySettings")); // konfiguracja chmury ze zdjeciami
             services.AddAutoMapper(typeof(Startup)); // rozwiazanie z overflow XD
             services.AddTransient<Seed>(); //laduje przykladowe dane
             services.AddScoped<IGenericRepository, GenericRepository>();
