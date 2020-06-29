@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -36,6 +37,22 @@ namespace Tinderro.API.Controllers
             var user = await _userRepo.GetUser(id);
             var userToReturn = _mapper.Map<UserForDetailedDto>(user);
             return Ok(userToReturn);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdateDto)
+        {
+            // ten user jest z ControllBase 
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var userFromDataBase = await _userRepo.GetUser(id);
+            _mapper.Map(userForUpdateDto, userFromDataBase);
+            // metoda SaveAll zwraca true albo false wiec jak zapis powiodl sie to nic nie zwraca
+            if (await _userRepo.SaveAll())
+                return NoContent();
+            
+            throw new Exception("Nie masz uprawnień");
         }
     }
 }

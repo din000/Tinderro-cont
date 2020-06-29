@@ -27,6 +27,7 @@ namespace Tinderro.API.Helpers
                     option.MapFrom(src => src.DateOfBirth.CalculateAge());
                 });
             CreateMap<Photo, PhotoFiorDetailedDto>(); // to ejst to nowe mapowanie xd
+            CreateMap<UserForUpdateDto, User>();
         }
     }
 }

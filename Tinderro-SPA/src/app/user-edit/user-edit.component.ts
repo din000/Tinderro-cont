@@ -3,6 +3,8 @@ import { User } from '../_models/user';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertifyService } from '../_services/alertify.service';
 import { NgForm } from '@angular/forms';
+import { UserService } from '../_services/user.service';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -24,7 +26,9 @@ export class UserEditComponent implements OnInit {
   }
 
   constructor(private route: ActivatedRoute,
-              private alertify: AlertifyService) { }
+              private alertify: AlertifyService,
+              private userService: UserService,
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -33,9 +37,19 @@ export class UserEditComponent implements OnInit {
   }
 
   updateUser() {
-    console.log(this.user);
-    this.alertify.success('Zapisano zmiany');
+
+    this.userService.UpdateUser(this.authService.decodedToken.nameid, this.user)
+        .subscribe(next => {
+          this.alertify.success('Pomyslnie zaktualizowano');
+           // resetuje formularz I WAZNE trzeba PRZEKAZAC usera bo inaczej beda puste pola
+          this.editform.reset(this.user);
+        }, error => {
+          this.alertify.error(error);
+        });
+
+    // console.log(this.user);
+    // this.alertify.success('Zapisano zmiany');
     // resetuje formularz I WAZNE trzeba PRZEKAZAC usera bo inaczej beda puste pola
-    this.editform.reset(this.user);
+    // this.editform.reset(this.user);
   }
 }
