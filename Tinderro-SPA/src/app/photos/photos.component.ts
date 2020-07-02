@@ -36,6 +36,7 @@ export class PhotosComponent implements OnInit {
     this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; }; // ta linijkia powoduje ze zdj wgl sie wysyla
 
     // to robi ze po dodaniu zdjec NIE TRZEBA odswiezac strony zeby zobaczyc rezultat
+    // UWAGAAAAA zeby to dzialo to w API trzeba zwracac zdj (mozliwe ze za pomoca createdataction / route), opisane jest to w API
     this.uploader.onSuccessItem = (item, respons, status, headers) => {
       if (respons) {
         const response: Photo = JSON.parse(respons); // parsujemy na response ktore jest klasy Photo

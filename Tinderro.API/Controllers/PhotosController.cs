@@ -15,7 +15,7 @@ using Tinderro.API.Models;
 namespace Tinderro.API.Controllers
 {
     [Authorize]
-    [Route("api/users/{userid}/[controller]")]   // {userid} nazwa ta musi byc taka sama jaka przekazujemy w metodzie HttpGet albo Post albo...
+    [Route("api/users/{userId}/[controller]")]   // {userid} nazwa ta musi byc taka sama jaka przekazujemy w metodzie HttpGet albo Post albo...
     [ApiController]
     public class PhotosController : ControllerBase
     {
@@ -40,13 +40,13 @@ namespace Tinderro.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPhotoForUser(int userid, [FromForm]PhotoForAddDto photoForAddDto) // FromForm mowi skad zdjecie bedzie pochodzic
+        public async Task<IActionResult> AddPhotoForUser(int userId, [FromForm]PhotoForAddDto photoForAddDto) // FromForm mowi skad zdjecie bedzie pochodzic
         {
             // sprawdza id z id z tokena
-            if (userid != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
     
-            var userFromDataBase = await _repository.GetUser(userid);  // pobranie uzytkownika z bazy
+            var userFromDataBase = await _repository.GetUser(userId);  // pobranie uzytkownika z bazy
  
             // UWAGA DZIWNE ponizsza nazwa file MUSI ZGADZAC SIE z nazwa w POSTMANIE z NAZWA ZDJECIA wtf xd
             var file = photoForAddDto.File;// zrobienie pliku z klasy PhotoForAddDto zeby dane moglybyc zczytane 
@@ -79,9 +79,12 @@ namespace Tinderro.API.Controllers
             if (await _repository.SaveAll())
             {
                 var photoForReturn = _mapper.Map<PhotoForReturnDto>(photo); 
-                return CreatedAtAction(nameof(GetPhoto), new { id = photo.Id }, photoForReturn);  // 1 argument to sciezka skad bedzie cos pobierane, 2 - przekazujemy id, 3 - zwracamy zdjecie
-                // return CreatedAtRoute(nameof(GetPhoto), photoForReturn, new {id = photo.Id});
+                // return CreatedAtAction(nameof(GetPhoto), new { id = photo.Id }, photoForReturn);  // 1 argument to sciezka skad bedzie cos pobierane, 2 - przekazujemy id, 3 - zwracamy zdjecie
+                return CreatedAtAction(nameof(GetPhoto), new { userId, id = photo.Id }, photoForReturn); // userId musimy tez przekazac, jest w glownym url tego kontrolera
+                // return CreatedAtAction(nameof(GetPhoto), new {id = photo.Id});
 
+                // UWAGAAAAAAAAAAAAAAAAAA jezeli tego returna z createataction nie bedzie to nie bedzie dzialac
+                // cos w angularze, cos co powoduje ze zdj po uploadzie OD RAZU sie pojawiaja i nie trzeba odswiezac
             }
 
             return BadRequest("Nie mozna dodac zdj");
@@ -89,9 +92,11 @@ namespace Tinderro.API.Controllers
 
 
         //[HttpGet("{id}", Name = "GetPhoto")]  // musi byc tak bo createdatroute nie dziala :)
-        private async Task<IActionResult> GetPhoto(int id)
+        //[HttpGet("{id}")]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPhoto(int id)
         {
-            var photoFromDatabase = await _repository.GetPhoto(id);
+            var photoFromDatabase = await _repository.GetPhoto(4);
             // return photoFromDatabase; nie da sie wiec trzeba mapowac
 
             var photoForReturn = _mapper.Map<PhotoForReturnDto>(photoFromDatabase);
