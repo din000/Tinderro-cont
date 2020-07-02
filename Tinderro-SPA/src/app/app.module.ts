@@ -26,6 +26,8 @@ import { UserListResolver } from './_resolves/user-list.resolver';
 import { UserEDITTResolver } from './_resolves/UserEDITT.Resolver';
 import { AlertifyService } from './_services/alertify.service';
 import { PreventUnsaveChanges } from './_guards/prevent-unsavedChanges.guard';
+import { PhotosComponent } from './photos/photos.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 export function TokenGetter() { // to jest do globalnej autoryzacji i juz jest ok z odswiezaniem
@@ -45,11 +47,15 @@ export function TokenGetter() { // to jest do globalnej autoryzacji i juz jest o
       UserCardComponent,
       UserDetailsComponent,
       UserEditComponent,
+      PhotosComponent
    ],
    imports: [
       BrowserModule,
       HttpClientModule,
       FormsModule,
+      FileUploadModule,
+
+      // --------------------------
       JwtModule.forRoot({
          config: {
             tokenGetter: TokenGetter,
@@ -57,6 +63,17 @@ export function TokenGetter() { // to jest do globalnej autoryzacji i juz jest o
             blacklistedRoutes: ['localhost:5000/api/auth']
          }
       }),
+      // ---------------------------
+
+      // JwtModule.forRoot({
+      //    config: {
+      //       tokenGetter: TokenGetter,
+      //       whitelistedDomains: ['localhost:5000'],
+      //       blacklistedRoutes: ['localhost:5000/api/auth']
+      //    }
+      // }),
+
+
        // dodaje routing z pliku route.ts
       RouterModule.forRoot(appRoutes),
        // importujemy dropdown z ngx bootstrap

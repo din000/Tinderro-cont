@@ -83,7 +83,10 @@ namespace Tinderro.API
             {
                 endpoints.MapControllers();
             });
-            
+            // app.UseEndpoints(endpoints =>
+            // {
+            //     endpoints.MapDefaultControllerRoute(); // MapControllers();
+            // });
         }
     }
 }

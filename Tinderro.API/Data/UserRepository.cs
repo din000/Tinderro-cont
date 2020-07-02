@@ -24,5 +24,17 @@ namespace Tinderro.API.Data
             var users = await _context.users.Include(p => p.Photos).ToListAsync();
             return users;
         }
+
+        public async Task<Photo> GetPhoto(int id)
+        {
+            var photoFromDataBase = await _context.photos.FirstOrDefaultAsync(p => p.Id == id);
+            return photoFromDataBase;
+        }
+
+        // public async Task<Photo> TestowePobranieZdj(int id)
+        // {
+        //     var photoFromDataBase = await _context.photos.FirstOrDefaultAsync(p => p.Id == 4);
+        //     return photoFromDataBase;
+        // }
     }
 }

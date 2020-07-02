@@ -115,8 +115,8 @@
             <a ngbNavLink>Zdjecia</a>
             <ng-template ngbNavContent>
 
-              <ngb-carousel *ngFor="let item of images">
-                <ng-template ngbSlide>
+              <ngb-carousel>
+                <ng-template ngbSlide *ngFor="let item of images">
                   <div class="picsum-img-wrapper">
                     <img class="img-thumbnail" [src]="item.url" alt="">
                   </div>

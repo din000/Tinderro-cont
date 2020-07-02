@@ -8,5 +8,6 @@ namespace Tinderro.API.Data
     {
          Task<IEnumerable<User>> Getusers();
          Task<User> GetUser(int id);
+         Task<Photo> GetPhoto(int id);
     }
 }

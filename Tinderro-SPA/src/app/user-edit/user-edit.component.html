@@ -129,7 +129,8 @@
                         <li ngbNavItem>
                         <a ngbNavLink>Zdjecia</a>
                         <ng-template ngbNavContent>
-                            Edycja zdjec do zrobienia !
+                            <!-- Edycja zdjec do zrobienia ! -->
+                            <app-photos [photos]="user.photos"></app-photos>
                             <!-- <ngb-carousel *ngFor="let item of images">
                             <ng-template ngbSlide>
                                 <div class="picsum-img-wrapper">

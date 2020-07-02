@@ -28,6 +28,8 @@ namespace Tinderro.API.Helpers
                 });
             CreateMap<Photo, PhotoFiorDetailedDto>(); // to ejst to nowe mapowanie xd
             CreateMap<UserForUpdateDto, User>();
+            CreateMap<PhotoForAddDto, Photo>();
+            CreateMap<Photo, PhotoForReturnDto>();
         }
     }
 }
