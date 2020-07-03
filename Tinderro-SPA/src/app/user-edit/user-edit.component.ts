@@ -16,6 +16,7 @@ export class UserEditComponent implements OnInit {
   user: User;
   // viewchild jest po to zeby ZRESETWOAC formularz
   @ViewChild('editform') editform: NgForm;
+  mainPhotoUrl: string;
 
   // to zabezpiecza przed wcisnieciem krzyzyka i przed nie zapisaniem zmian
   @HostListener('window:beforeunload', ['$event'])
@@ -34,6 +35,7 @@ export class UserEditComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.user = data.user;
     });
+    this.authService.currentPhotoUrl.subscribe(mainPhotoUrl => this.mainPhotoUrl = mainPhotoUrl);
   }
 
   updateUser() {

@@ -12,12 +12,16 @@ export class NavComponent implements OnInit {
 
   model: any = {};    // ten model bedzie uzupelniony w nav.cpomponents.html, dlatego bedize mial .username i .password
 
+  mainPhotoUrl: string;
+
   // wstrzykujemy authservice poniewaz on zawiera komunikacje z api
   // npm install alertifyjs --save
   // musi byc public bo w htmlu wywala blad przy wyswietlaniu nazwy
   // wstrzukujemy router bo potrzebny do nawigazji
   constructor(public authService: AuthService, private router: Router) { }
   ngOnInit() {
+    // z authserwisu pobieramy photourl i przypisujemy do photourl w tym komponencie
+    this.authService.currentPhotoUrl.subscribe(mainPhotoUrl => this.mainPhotoUrl = mainPhotoUrl);
   }
 
   login() {

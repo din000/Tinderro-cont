@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from '../_models/user';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,17 @@ export class AuthService {
   jwtHelper = new JwtHelperService();
   decodedToken: any;
   currentUser: User;
+  // te 2 linijki to przesylania danych globalnie i ta metoda tez: changeUserPhoto
+  // <string> bo to bedzie url, a w nawiasach () jest podstawowy obrazek
+  mainPhotoUrl = new BehaviorSubject<string>('../../assets/user.png');
+  currentPhotoUrl = this.mainPhotoUrl.asObservable();
 
   constructor(private http: HttpClient) { }
+
+  // pozniej to trzeba wywolac w metodzie login
+  changeUserPhoto(photoUrl: string) {
+    this.mainPhotoUrl.next(photoUrl);
+  }
 
   // UWAGAAAAAAAAAAAAAAAA trza pamietac zeby to co tutaj dajemy do local storage to pozniej to usunac np przy wylogowywaniu
 
@@ -32,6 +42,7 @@ export class AuthService {
           // rozkodowywuje tokena i to przelozy sie na wyswietlanie imienia przy "Witam uzytkopwniku"
           this.decodedToken = this.jwtHelper.decodeToken(user.token);
           this.currentUser = user.user;
+          this.changeUserPhoto(this.currentUser.photoUrl);
           // console.log(this.decodedToken); // dzieki temu na konsoli wyswietli sie rozkodowany token i bede wiedzial co z niego wyciagnac
         }
       }));
