@@ -36,4 +36,9 @@ export class UserService {
   UpdateUser(id: number, user: User) {
     return this.http.put(this.baseUrl + 'users/' + id, user);
   }
+
+  setMainPhoto(userId: number, id: number) {
+    // te nawiasy {} to przekazanie pustego obiektu?
+    return this.http.post(this.baseUrl + 'users/' + userId + '/photos/' + id + '/setMain', {});
+  }
 }

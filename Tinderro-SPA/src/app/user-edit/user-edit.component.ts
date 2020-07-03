@@ -52,4 +52,12 @@ export class UserEditComponent implements OnInit {
     // resetuje formularz I WAZNE trzeba PRZEKAZAC usera bo inaczej beda puste pola
     // this.editform.reset(this.user);
   }
+
+
+  // poniewaz w htmlu przesylamy w nawiasikach $event
+  // a $event to photourl ktory wczesniej wyslalismy z photo component
+  // to ponizsza metoda przyjmuje wlasnie photourl (nazwa przyjmowanego argumentu w tej metodzie moze byc dowlona)
+  updatePhoto(photoUrl) {
+    this.user.photoUrl = photoUrl;
+  }
 }

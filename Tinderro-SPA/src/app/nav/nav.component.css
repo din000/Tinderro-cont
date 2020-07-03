@@ -1,3 +1,11 @@
 .dropdown-toggle, .dropdown-item {
     cursor: pointer;
 }
+
+
+/* klasy ktore nie maja wyraznej nazwy class NIE SA POPRZEDZANE kropka tak jak nizej przyklad */
+img {
+    max-height: 40px;
+    border: 2px solid white;
+    display: inline;
+}

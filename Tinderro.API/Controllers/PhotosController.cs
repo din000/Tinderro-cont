@@ -103,19 +103,30 @@ namespace Tinderro.API.Controllers
             return Ok(photoForReturn);
         }
 
-        // [HttpGet("id")]
-        // public async Task<IActionResult> Dupa(int id)
-        // {
-        //     var photoFromDatabase = await _repository.GetPhoto(id);
+        [HttpPost("{id}/setMain")]
+        public async Task<IActionResult> SetMainPhoto(int userId, int id)
+        {
+             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
 
-        //     var photo = new Photo();
-        //     // // return photoFromDatabase; nie da sie wiec trzeba mapowac
+            var user = await _repository.GetUser(userId);
 
-        //     // var photoForReturn = _mapper.Map<PhotoForReturnDto>(photoFromDatabase);
-        //     // return photoForReturn;
-            
+            if (!user.Photos.Any(p => p.Id == id)) // jezeli nie ma zdjec
+                return Unauthorized();
 
-        //     return CreatedAtRoute("GetPhoto", new { id = photoFromDatabase.Id }, photo);
-        // }
+            var photo = await _repository.GetPhoto(id);
+
+            if (photo.IsMain)
+                return BadRequest("To zdj jest juz glowne");
+
+            var currentMainPhoto = await _repository.GetMainPhoto(userId);
+            currentMainPhoto.IsMain = false;
+            photo.IsMain = true;
+
+            if (await _repository.SaveAll())
+                return NoContent();
+
+            return BadRequest("Nie mozna ustawic zdj jako glownego");
+        }
     }
 }

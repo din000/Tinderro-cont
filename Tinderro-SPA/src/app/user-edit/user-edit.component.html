@@ -12,7 +12,7 @@
     <div class="row">
       <div class="col-sm-4">
   
-        <!-- lew strona ze zdjeciem -->
+        <!-- lewa strona ze zdjeciem -->
         <div class="card">
           <img class="card-img-top img-thumbnail" src="{{user.photoUrl}}" alt="{{user.username}}">
           <div class="card-body">
@@ -130,7 +130,7 @@
                         <a ngbNavLink>Zdjecia</a>
                         <ng-template ngbNavContent>
                             <!-- Edycja zdjec do zrobienia ! -->
-                            <app-photos [photos]="user.photos"></app-photos>
+                            <app-photos [photos]="user.photos" (updatePhoto)="updatePhoto($event)"></app-photos>
                             <!-- <ngb-carousel *ngFor="let item of images">
                             <ng-template ngbSlide>
                                 <div class="picsum-img-wrapper">

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Tinderro.API.Models;
@@ -29,6 +30,11 @@ namespace Tinderro.API.Data
         {
             var photoFromDataBase = await _context.photos.FirstOrDefaultAsync(p => p.Id == id);
             return photoFromDataBase;
+        }
+
+        public async Task<Photo> GetMainPhoto(int userId)
+        {
+            return await _context.photos.Where(u => u.UserId == userId).FirstOrDefaultAsync(i => i.IsMain);
         }
 
         // public async Task<Photo> TestowePobranieZdj(int id)

@@ -17,7 +17,7 @@ namespace Tinderro.API.Data
         #region public methods
         public async Task<User> Login(string username, string password)
         {
-            var user = await _context.users.FirstOrDefaultAsync(x => x.Username == username);
+            var user = await _context.users.Include(p => p.Photos).FirstOrDefaultAsync(x => x.Username == username);
 
             if (user == null)
                 return null;

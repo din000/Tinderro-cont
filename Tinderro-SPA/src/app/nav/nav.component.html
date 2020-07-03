@@ -19,6 +19,9 @@
 
     <!-- *ngIf dziala jak if :D :D :D -->
     <div *ngIf="loggedIn()" ngbDropdown class="dropdown">
+      <span class="mr-2">
+        <img src="{{authService.currentUser.photoUrl}}">
+      </span>
       <a class="dropdown-toggle text-light" ngbDropdownToggle>
         <!-- musimy dac ? bo jak jest token to ma wyswietlic imie a jak nie to nie. jezlei nie damy ? to sa bledy -->
         Witaj {{authService.decodedToken?.unique_name | titlecase}}

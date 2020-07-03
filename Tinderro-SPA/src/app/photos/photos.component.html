@@ -2,7 +2,14 @@
   <div class="col-sm-2" *ngFor="let item of photos">
     <img src="{{item.url}}" alt="{{item.description}}" class="img-thumbnail p-1">
     <div class="text-center mb-2">
-      <button type="button" class="btn btn-sm mr-1 btn-success"><i class="fa fa-home"></i></button>
+        <!-- jezlei zdj ejst glowne to ma byc btn succces a jak nie to btn info -->
+        <!-- [ngClass]="item.isMain ? 'btn-success active' : 'btn-info'" -->
+      <button type="button" class="btn btn-sm mr-1 btn-success" 
+      (click)="setMainPhoto(item)" 
+      [ngClass]="item.isMain ? 'btn-success active' : 'btn-info'"
+      [disabled]="item.isMain">
+      <i class="fa fa-home"></i>
+    </button>
       <button type="button" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></button>
     </div>
   </div>

@@ -1,8 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Photo } from '../_models/photo';
 import { FileUploader, FileUploadModule } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment.prod';
 import { AuthService } from '../_services/auth.service';
+import { UserService } from '../_services/user.service';
+import { AlertifyService } from '../_services/alertify.service';
 
 @Component({
   selector: 'app-photos',
@@ -12,11 +14,15 @@ import { AuthService } from '../_services/auth.service';
 export class PhotosComponent implements OnInit {
 
   @Input() photos: Photo[];
+  @Output() updatePhoto = new EventEmitter(); // bedziemy emitowac zmienione zdj do UserEditComponent
   uploader: FileUploader;
   hasBaseDropZoneOver = false;
   baseUrl = environment.apiUrl;
+  currentMainPhoto: Photo;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+              private userService: UserService,
+              private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.initializeUploader();
@@ -51,10 +57,26 @@ export class PhotosComponent implements OnInit {
       }
     };
   }
-
-
+  // to jest do edycji zdj
   public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
   }
 
+  setMainPhoto(photo: Photo) {
+    this.userService.setMainPhoto(this.authService.decodedToken.nameid, photo.id) // przekazujemy userId i id zdjecia
+      .subscribe(() => {
+        console.log('zdj ustawione jako glowne');
+        // 3 poznizsze linjiki robia zeby od razu byly efekty przy klikaniu ze zdj ma byc glwone
+        // [0] to znaczy ze pobieramy 1 element z przefiltrowanej kolekcji
+        // najpierw pobiera aktualnego maina a potem go zmienia i ustawia ze inne jest glowne
+        this.currentMainPhoto = this.photos.filter(p => p.isMain === true)[0];
+        this.currentMainPhoto.isMain = false;
+        photo.isMain = true;
+
+        // emitujemy aktualne main photo
+        this.updatePhoto.emit(photo.url);
+      }, error => {
+        this.alertify.error(error);
+      });
+  }
 }
