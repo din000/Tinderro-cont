@@ -1,4 +1,7 @@
-<form #registerform="ngForm" (ngSubmit)="register()">
+
+<!-- TO WSZYSTKO BYLO OK ALE BYLO ZWYKLE A NIE REACTIVE FORM -->
+
+<!-- <form #registerform="ngForm" (ngSubmit)="register()"> to bylo zwykle a nie reactive form
   <h2 class ="text-center text-primary">Zapisz się</h2>
   <hr>
   <div class="form-group">
@@ -7,6 +10,66 @@
   <div class="form-group">
     <input class="form-control" type="password" placeholder="Hasło" required name="password" [(ngModel)]="model.password">
   </div>
+  <div class="form-group">
+    <label for="favouriteSomething">Jakie jest Twoje ulubione cos?</label>
+    <select class="form-control" id="favouriteSomething"> -->
+      <!-- ta linijka importuje dane z innego komponentu i wyswietla w opcjach rozwijanych bl abla -->
+      <!-- <option *ngFor="let item of daneZInnegoKomponentuHOME" [value]="item">{{item.username}}</option>
+    </select>
+  </div>
+
+  <div class="form-gorup text-center">
+    <button class="btn btn-success mr-1" type="submit">Zarejestruj</button>
+    <button class="btn btn-default" type="submit" (click)="cancel()">Anuluj</button>
+  </div>
+</form> -->
+
+
+<!-- A TUTAJ JEST FORMULARZ REAKTYWNY !!!!!!!!!!!!!!!!!!!!! -->
+
+<form [formGroup]="registerForm" (ngSubmit)="register()">
+  <h2 class ="text-center text-primary">Zapisz się</h2>
+  <hr>
+  
+  <div class="form-group">
+    <!-- [ngClass]="{ 'is-invalid': registerForm.get('username').errors }"   jezeli sa bledy to pojawi sie div z invalid-feedback-->
+    <input type="text" class="form-control" placeholder="Nazwa użytkownika" formControlName="username"
+           [ngClass]="{ 'is-invalid': registerForm.get('username').errors && registerForm.get('username').touched }">
+    <div class="invalid-feedback">Podaj nazwe uzytkownika</div>
+  </div>
+
+  <div class="form-group">
+    <input class="form-control" type="password" placeholder="Hasło" formControlName="password"
+           [ngClass]="{ 'is-invalid': registerForm.get('password').errors && registerForm.get('password').touched }">
+           <div class="invalid-feedback"
+                *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched">
+                Haslo jest wymagane
+           </div>
+           <div class="invalid-feedback"
+                *ngIf="registerForm.get('password').hasError('minlength') && registerForm.get('password').touched">
+                Haslo musi miec od 4 do 12 znakow
+           </div>
+      
+           <div class="invalid-feedback"
+                *ngIf="registerForm.get('password').hasError('maxlength') && registerForm.get('password').touched">
+                Haslo musi miec od 4 do 12 znakow
+           </div>
+  </div>
+
+  <div class="form-group">
+    <input class="form-control" type="password" placeholder="Potwierdz hasło" formControlName="confrimPassword"
+           [ngClass]="{ 'is-invalid': registerForm.get('confrimPassword').errors && registerForm.get('confrimPassword').touched
+                                   || registerForm.get('confrimPassword').touched && registerForm.hasError('mismatch') }">
+           <div class="invalid-feedback"
+                *ngIf="registerForm.get('confrimPassword').hasError('required') && registerForm.get('confrimPassword').touched">
+                Haslo jest wymagane
+           </div>
+           <div class="invalid-feedback"
+                *ngIf="registerForm.get('confrimPassword').touched && registerForm.hasError('mismatch')" >
+                Podane hasla sa nieprawidlowe
+           </div>
+  </div>
+
   <div class="form-group">
     <label for="favouriteSomething">Jakie jest Twoje ulubione cos?</label>
     <select class="form-control" id="favouriteSomething">
@@ -20,5 +83,8 @@
     <button class="btn btn-default" type="submit" (click)="cancel()">Anuluj</button>
   </div>
 </form>
+
+<!-- <p>Wartosci: {{registerForm.value | json}}</p> json to taki parsik z object na sting i odwrotnie :O
+<p>Status: {{registerForm.valid }}</p> -->
 
 
