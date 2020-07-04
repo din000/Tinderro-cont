@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 declare let alertify: any;
 
 @Component({
@@ -16,15 +16,30 @@ export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+              private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.createRegisterForm();
+  }
+
+  // z tego juz nie korzystamy bo to bylo przed formbuilderem
+  oldVersionRegisterForm() {
     this.registerForm = new FormGroup({
       // '' - placeholder, dziala jak placeholder, tyle ze da sie to zaznaczyc w gotowej apce, validators - walidatorki
       username: new FormControl('', Validators.required),
       password: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(12)]),
       confrimPassword: new FormControl('', Validators.required),
     }, this.passwordMatchValidator);
+  }
+
+  // tutaj wykorzystujemy formbuildera
+  createRegisterForm() {
+    this.registerForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(12)]],
+      confrimPassword: ['', Validators.required]
+    }, {validator: this.passwordMatchValidator});
   }
 
   // sprawdza hasla czy sa takie same
