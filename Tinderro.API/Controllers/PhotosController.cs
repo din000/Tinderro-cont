@@ -106,7 +106,7 @@ namespace Tinderro.API.Controllers
         [HttpPost("{id}/setMain")]
         public async Task<IActionResult> SetMainPhoto(int userId, int id)
         {
-             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
 
             var user = await _repository.GetUser(userId);
@@ -127,6 +127,42 @@ namespace Tinderro.API.Controllers
                 return NoContent();
 
             return BadRequest("Nie mozna ustawic zdj jako glownego");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int userId, int id)
+        {
+             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var user = await _repository.GetUser(userId);
+
+            if (!user.Photos.Any(p => p.Id == id)) // jezeli nie ma zdjec
+                return Unauthorized();
+
+            var photo = await _repository.GetPhoto(id);
+
+            if (photo.IsMain)
+                return BadRequest("Nie mozna usunac glosnego zdj");
+
+            // ------------------------------
+
+            if (photo.Public_id != null) // jezeli zdj ma publicId tzn ze jest w cloudinary wiec trzeba je z tamtad usunac
+            {
+                var deleteParams = new DeletionParams(photo.Public_id); // do tego TRZEBA przekazac ID takie jakie jest w cloudinary!
+                var result = _cloudinary.Destroy(deleteParams); // rezultat bedzie zwracal OK
+
+                if (result.Result == "ok")
+                    _repository.Delete(photo);
+            }
+            
+            if (photo.Public_id != null)
+                _repository.Delete(photo);
+
+            if (await _repository.SaveAll())
+                return Ok();
+
+            return BadRequest("Nie udalo sie usunac zdj");
         }
     }
 }

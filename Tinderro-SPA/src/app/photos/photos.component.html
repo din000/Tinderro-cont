@@ -10,7 +10,9 @@
       [disabled]="item.isMain">
       <i class="fa fa-home"></i>
     </button>
-      <button type="button" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></button>
+      <button type="button" class="btn btn-sm btn-danger"
+              (click)="deletePhoto(item.id)">
+              <i class="fa fa-trash-o"></i></button>
     </div>
   </div>
 </div>

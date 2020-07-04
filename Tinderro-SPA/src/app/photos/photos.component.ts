@@ -82,4 +82,15 @@ export class PhotosComponent implements OnInit {
         this.alertify.error(error);
       });
   }
+
+  deletePhoto(id: number) {
+    this.alertify.confirm('Czy chcesz usunac zdj?', () => {
+      this.userService.deletePhoto(this.authService.decodedToken.nameid, id).subscribe(() => {
+        this.photos.splice(this.photos.findIndex(i => i.id === id), 1); // splice - usuwa, 1 - podajemy ile zdj chcemy usunac
+        this.alertify.success('Zdjecie usuniete');
+      }, error => {
+        this.alertify.error('Nie udalo sie usunac zdj');
+      });
+    });
+  }
 }
