@@ -44,16 +44,22 @@ namespace Tinderro.API.Controllers
             if(await _repository.UserExist(userForRegisterDto.Username))
                 return BadRequest("Użytkownik o podanej nazwie już istnieje!");
             
-            var userToCreate = new User
-            {
-                //Username = username;
-                Username = userForRegisterDto.Username
-            };
+            // to bylo amatorskie tworzenie usera
+            // var userToCreate = new User
+            // {
+            //     //Username = username;
+            //     Username = userForRegisterDto.Username
+            // };
+
+            var userToCreate = _mapper.Map<User>(userForRegisterDto);
 
             //var createdUser = await _repository.Register(userToCreate, password);
             var createdUser = await _repository.Register(userToCreate, userForRegisterDto.Password);
 
-            return StatusCode(201);
+            var userToReturn = _mapper.Map<UserForDetailedDto>(createdUser); // mapujemy na UserForDetailedDto zeby nie przekezywac info o np hasle 
+
+            //return StatusCode(201);
+            return CreatedAtRoute("GetUser", new { controller = "Users", Id = createdUser.Id}, userToReturn); // controller = "Users" - ten fragment kodu JEST TYLKO INFORMACYJNY z jakiego kontrolera korzystamy
         }
 
         [HttpPost("login")]

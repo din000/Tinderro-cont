@@ -9,6 +9,8 @@ namespace Tinderro.API.Helpers
     {
         public AutoMapperProfiles()
         {
+            // najpierw mapujemy tutaj zeby pozniej gdzie indziej moc wykorzystac mapowanie ale kod wyglada nieco inaczej ???
+
             //ponizsza funkcja ustawia url zdjecia:
             // destination - tam gdzie ma byc docelowo zmapowane cos, src - source/ zrodlo czyli skad bierzemy dane
             // i ta koniec pobieramu url
@@ -30,6 +32,7 @@ namespace Tinderro.API.Helpers
             CreateMap<UserForUpdateDto, User>();
             CreateMap<PhotoForAddDto, Photo>();
             CreateMap<Photo, PhotoForReturnDto>();
+            CreateMap<UserForRegisterDto, User>(); // po rozszerzeniu danych do rejestracji
         }
     }
 }

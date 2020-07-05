@@ -30,6 +30,16 @@
 <form [formGroup]="registerForm" (ngSubmit)="register()">
   <h2 class ="text-center text-primary">Zapisz się</h2>
   <hr>
+
+  <div class="form-group">
+    <label class="mr-3">Jestem:</label>
+      <label class="radio-inline">
+        <input class="mr-1" type="radio" value="male" formControlName="gender"> Mężczyzną
+      </label>
+        <label class="radio-inline ml-3">
+        <input class="mr-1" type="radio" value='female' formControlName="gender"> Kobietą
+      </label>
+  </div>
   
   <div class="form-group">
     <!-- [ngClass]="{ 'is-invalid': registerForm.get('username').errors }"   jezeli sa bledy to pojawi sie div z invalid-feedback-->
@@ -71,6 +81,31 @@
   </div>
 
   <div class="form-group">
+    <input type="date" class="form-control" placeholder="Data urodzenia" formControlName="dateOfBirth"
+           [ngClass]="{ 'is-invalid': registerForm.get('dateOfBirth').errors && registerForm.get('dateOfBirth').touched }">
+    <div class="invalid-feedback">Data urodzenia jest wymagana</div>
+  </div>
+
+  <div class="form-group">
+    <input class="form-control" placeholder="Znak zodiaku" formControlName="zodiacSign"
+           [ngClass]="{ 'is-invalid': registerForm.get('zodiacSign').errors && registerForm.get('zodiacSign').touched }">
+    <div class="invalid-feedback">Znak zodiaku jest wymagany</div>
+  </div>
+
+  <div class="form-group">
+    <input class="form-control" placeholder="Kraj" formControlName="country"
+           [ngClass]="{ 'is-invalid': registerForm.get('country').errors && registerForm.get('country').touched }">
+    <div class="invalid-feedback">Kraj jest wymagany</div>
+  </div>
+
+  <div class="form-group">
+    <input class="form-control" placeholder="Miasto" formControlName="city"
+           [ngClass]="{ 'is-invalid': registerForm.get('city').errors && registerForm.get('city').touched }">
+    <div class="invalid-feedback">Znak zodiaku jest wymagany</div>
+  </div>
+
+
+  <div class="form-group">
     <label for="favouriteSomething">Jakie jest Twoje ulubione cos?</label>
     <select class="form-control" id="favouriteSomething">
       <!-- ta linijka importuje dane z innego komponentu i wyswietla w opcjach rozwijanych bl abla -->
@@ -79,7 +114,7 @@
   </div>
 
   <div class="form-gorup text-center">
-    <button class="btn btn-success mr-1" type="submit">Zarejestruj</button>
+    <button class="btn btn-success mr-1" type="submit" [disabled]="registerForm.invalid">Zarejestruj</button>
     <button class="btn btn-default" type="submit" (click)="cancel()">Anuluj</button>
   </div>
 </form>
