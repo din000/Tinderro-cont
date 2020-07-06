@@ -54,6 +54,14 @@ export class PhotosComponent implements OnInit {
           isMain: response.isMain
         };
         this.photos.push(photo); // dodajemy do naszej kolekcji zdjec
+
+        if (photo.isMain) {
+        // emitujemy aktualne main photo
+        // this.updatePhoto.emit(photo.url);  // juz nie emitujemy w ten sposob tylko "emitujemy" GLOOBALNIE (ponizsze 3 linijki)
+        this.authService.changeUserPhoto(photo.url);
+        this.authService.currentUser.photoUrl = photo.url; // aktualizujemy dla aktualnego uzytkownika glowne zdj
+        localStorage.setItem('user', JSON.stringify(this.authService.currentUser)); // a teraz aktualizujemy go w local storage
+        }
       }
     };
   }

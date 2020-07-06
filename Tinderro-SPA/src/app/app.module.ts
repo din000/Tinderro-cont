@@ -28,6 +28,7 @@ import { AlertifyService } from './_services/alertify.service';
 import { PreventUnsaveChanges } from './_guards/prevent-unsavedChanges.guard';
 import { PhotosComponent } from './photos/photos.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { TimeAgoPipe } from './_pipes/time-ago-pipe';
 
 
 export function TokenGetter() { // to jest do globalnej autoryzacji i juz jest ok z odswiezaniem
@@ -47,7 +48,8 @@ export function TokenGetter() { // to jest do globalnej autoryzacji i juz jest o
       UserCardComponent,
       UserDetailsComponent,
       UserEditComponent,
-      PhotosComponent
+      PhotosComponent,
+      TimeAgoPipe
    ],
    imports: [
       BrowserModule,

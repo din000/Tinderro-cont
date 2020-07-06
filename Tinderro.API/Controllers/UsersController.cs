@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tinderro.API.Data;
 using Tinderro.API.Dtos;
+using Tinderro.API.Helpers;
 
 namespace Tinderro.API.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivity))]
     [Authorize]
     [ApiController] //jezeli zakomentujemy to to juz nie bedzie apicontroller tylko zwykly MVC controller 
     [Route("api/[controller]")]

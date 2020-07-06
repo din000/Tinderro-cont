@@ -7,7 +7,7 @@
 
       <!-- lew strona ze zdjeciem -->
       <div class="card">
-        <img class="card-img-top img-thumbnail" src="{{user.photoUrl}}" alt="{{user.username}}">
+        <img class="card-img-top img-thumbnail" src="{{user.photoUrl || '../../../../assets/user.png'}}" alt="{{user.username}}">
         <div class="card-body">
           <div>
             <strong>Imie:</strong>
@@ -19,7 +19,14 @@
           </div>
           <div>
             <strong>Ostatnia aktywnosc:</strong>
-            <p>{{user.lastActive}}</p>
+            <!-- timeAgo jest z _pipes/timeagos-->
+            <p>{{user.lastActive.toString() | timeAgo}}</p>
+          </div>
+          <div>
+            <strong>Ostatnia aktywnosc:</strong>
+            <!-- ogolnie na stronie angulara w zakladce datapipe sa rozne mozliwosci -->
+            <p>{{user.lastActive | date}}</p>
+            <p>{{user.lastActive | date: 'shortDate'}}</p>
           </div>
         </div>
         <div class="card-fouter">
