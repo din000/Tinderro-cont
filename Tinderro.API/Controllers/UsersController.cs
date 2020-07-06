@@ -26,10 +26,13 @@ namespace Tinderro.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers([FromQuery]UserParams userParams) // [FromQuerry] powoduje ze dane sa pobierane z url
         {
-            var users = await _userRepo.Getusers();
+            var users = await _userRepo.GetUsers(userParams);
             var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
+
+            Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
+
             return Ok(usersToReturn);
         }
 

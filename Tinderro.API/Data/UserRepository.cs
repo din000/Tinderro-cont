@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Tinderro.API.Helpers;
 using Tinderro.API.Models;
 
 namespace Tinderro.API.Data
@@ -20,10 +21,17 @@ namespace Tinderro.API.Data
             return user;
         }
 
-        public async Task<IEnumerable<User>> Getusers()
+        // przed page list
+        // public async Task<IEnumerable<User>> Getusers()
+        // {
+        //     var users = await _context.users.Include(p => p.Photos).ToListAsync();
+        //     return users;
+        // }
+
+        public async Task<PageList<User>> GetUsers (UserParams userParams)
         {
-            var users = await _context.users.Include(p => p.Photos).ToListAsync();
-            return users;
+            var users = _context.users.Include(p => p.Photos);
+            return await PageList<User>.CreateListAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<Photo> GetPhoto(int id)
@@ -36,6 +44,8 @@ namespace Tinderro.API.Data
         {
             return await _context.photos.Where(u => u.UserId == userId).FirstOrDefaultAsync(i => i.IsMain);
         }
+
+
 
         // public async Task<Photo> TestowePobranieZdj(int id)
         // {
