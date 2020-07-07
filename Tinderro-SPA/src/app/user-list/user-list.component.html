@@ -22,7 +22,18 @@
           <!-- {{item.username}} - {{item.age}} = {{item.city}} -->
         <app-user-card [daneZUserList]='item'></app-user-card>
       </div>
+      <!-- pagination -->
       </div>
+          <!-- pod tym evencikiem kryje sie nr strony -->
+          <ngb-pagination [collectionSize]="pagination.totalItems" 
+                          [(page)]="pagination.currentPage" 
+                          [pageSize]="pagination.itemsPerPage"                    
+                          (pageChange)="pageChanged($event)" 
+                          aria-label="Default pagination"></ngb-pagination>
+
+          <hr>
+          
+          <pre>Biezaca strona: {{pagination.currentPage}}</pre>
     </div>
 
   </div>

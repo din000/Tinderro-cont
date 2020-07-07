@@ -10,7 +10,7 @@ declare let alertify: any;
 export class UserListResolver implements Resolve<User[]> {
 
     pageNumber = 1;
-    pageSize = 6;
+    pageSize = 18;
 
     constructor(private userService: UserService,
                 private router: Router) {}

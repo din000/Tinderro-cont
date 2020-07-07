@@ -15,8 +15,10 @@ import { PreventUnsaveChanges } from './_guards/prevent-unsavedChanges.guard';
 export const appRoutes: Routes = [
     // routing leci po kolei!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     { path: '', component: HomeComponent},
-    { path: 'użytkownicy', component: UserListComponent, canActivate: [AuthGuard], resolve: {users: UserListResolver}},
-    { path: 'użytkownicy/:id', component: UserDetailsComponent, canActivate: [AuthGuard], resolve: {user: UserDetailResolver}},
+    { path: 'użytkownicy', component: UserListComponent, canActivate: [AuthGuard],
+                                                         resolve: {users: UserListResolver}},
+    { path: 'użytkownicy/:id', component: UserDetailsComponent, canActivate: [AuthGuard],
+                                                                resolve: {user: UserDetailResolver}},
     { path: 'uzytkownicy/edycja', component: UserEditComponent, canActivate: [AuthGuard],
                                                                 resolve: {user: UserEDITTResolver},
                                                                 canDeactivate: [PreventUnsaveChanges]},
