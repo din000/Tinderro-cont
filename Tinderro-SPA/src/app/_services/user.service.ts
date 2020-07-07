@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment.prod';
 import { Observable } from 'rxjs';
 import { User } from '../_models/user';
+import { Pagination, PaginationResult } from '../_models/pagination';
+import { map } from 'rxjs/operators';
 
 // to bylo do autoryzacji
 // const httpOptions = {
@@ -23,9 +25,39 @@ export class UserService {
 
   // poniewaz do tych metod maja dostep tylko zarejestrowani uzytkownicy to trzeba dodac tokena w opcjach, czyli httpPotions
 
-  GetUsers(): Observable<User[]> {
-    // return this.http.get<User[]>(this.baseUrl + 'users', httpOptions); // to bylo do autoryzacji ale trza bylo odswiezyc zeby dzialalo
-    return this.http.get<User[]>(this.baseUrl + 'users');
+  // to jest przed pagination
+  // GetUsers(): Observable<User[]> {
+  //   // return this.http.get<User[]>(this.baseUrl + 'users', httpOptions); // to bylo do autoryzacji ale trza bylo odswiezyc zeby dzialalo
+  //   return this.http.get<User[]>(this.baseUrl + 'users');
+  // }
+
+
+  // ogolnie w tej metodzie przy zwracaniu to mapujemy to co dostaniemy od API na to co mamy w SPA
+  GetUsers(page?, itemsPerPage?): Observable<PaginationResult<User[]>> {
+    const paginationResult: PaginationResult<User[]> = new PaginationResult<User[]>(); // PaginationResult to nasza klasa z _models
+    let params = new HttpParams();
+
+    // jezeli uzytkownik poda liczbe stron i cos tam to bedzie to przekazane do paramsow ktore pozniej beda przeslane dalej
+    if (page != null && itemsPerPage != null) {
+      params = params.append('pageNumber', page),
+      params = params.append('pageSize', itemsPerPage);
+    }
+
+    // wychodzi na to ze to 'response' to to co dostajemy od API
+    // params to parametry ktore zawieraja strone i ilosc na stronie
+    return this.http.get<User[]>(this.baseUrl + 'users', { observe: 'response', params })
+      .pipe(map(response => { // return z API?
+        paginationResult.result = response.body; // pod body kryje sie chyba WSZYSTKO co chcemy wyswietlic czyli uzytkownicy
+
+        // parsik na obiekt bo sa stringi, w '' podajemy nazwe headera
+        // wczesniej hedersika "Pagination" stworzylismy w API a tu go przechwytujemy
+        // ten hedersik zawiera info o filtrach wyswietlania ktore pozniej parsikujemy na obiekt _models/paginations
+        if (response.headers.get('Pagination') != null) {
+          paginationResult.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+
+        return paginationResult; // i chyba paginationResult bedzie w routerze kryc sie pod nazwa jaka chcemy (w tym przypadku users)
+      }));
   }
 
   GetUser(id: number): Observable<User> {

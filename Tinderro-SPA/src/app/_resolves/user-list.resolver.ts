@@ -9,17 +9,20 @@ declare let alertify: any;
 @Injectable()
 export class UserListResolver implements Resolve<User[]> {
 
+    pageNumber = 1;
+    pageSize = 6;
+
     constructor(private userService: UserService,
                 private router: Router) {}
 
     // !!!!!!!!!!!!!!!!!!!!!! resolver jest po to zeby otrzymac dane PRZEDDDDDDDDDd aktywacja samego routera, inaczej blad
 
-    // to jest konkretnie do pobierania konkretnego usera
+    // to jest do pobierania userow
     // to jest po to zeby w htmlu nie pisac ciagle np user?.age (chodzi o pytajnik)
     // pozniej w route.ts przy konkretnym routingu trzeba dodac po przecinku RESOLVE....
 
     resolve(route: ActivatedRouteSnapshot): Observable<User[]> {
-        return this.userService.GetUsers().pipe(
+        return this.userService.GetUsers(this.pageNumber, this.pageSize).pipe(
             catchError(error => {
                 alertify.error('Problem z pobraniem danych');
                 this.router.navigate(['']);

@@ -31,6 +31,8 @@ namespace Tinderro.API.Controllers
             var users = await _userRepo.GetUsers(userParams);
             var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
 
+            // to jest chyba tylko do wyswietlenia w postmanie w hedersach? jakie ostatecznie byly parametry
+            // AddPagination pochodzi z Helpers/Extension
             Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 
             return Ok(usersToReturn);

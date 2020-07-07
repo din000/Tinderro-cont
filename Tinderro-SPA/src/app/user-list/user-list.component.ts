@@ -19,7 +19,7 @@ export class UserListComponent implements OnInit {
   ngOnInit() {
     // this.loadUsers(); // przed lesolverem
     this.route.data.subscribe(data => {
-      this.users = data.users;
+      this.users = data.users.result; // zeby pagination dziallo to trzeba dac .result
     });
   }
 
