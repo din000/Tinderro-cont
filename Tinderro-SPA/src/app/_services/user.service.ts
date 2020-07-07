@@ -33,7 +33,7 @@ export class UserService {
 
 
   // ogolnie w tej metodzie przy zwracaniu to mapujemy to co dostaniemy od API na to co mamy w SPA
-  GetUsers(page?, itemsPerPage?): Observable<PaginationResult<User[]>> {
+  GetUsers(page?, itemsPerPage?, userParams?): Observable<PaginationResult<User[]>> {
     const paginationResult: PaginationResult<User[]> = new PaginationResult<User[]>(); // PaginationResult to nasza klasa z _models
     let params = new HttpParams();
 
@@ -41,6 +41,13 @@ export class UserService {
     if (page != null && itemsPerPage != null) {
       params = params.append('pageNumber', page),
       params = params.append('pageSize', itemsPerPage);
+    }
+
+    if (userParams != null) {
+      params = params.append('minAge', userParams.minAge);
+      params = params.append('maxAge', userParams.maxAge);
+      params = params.append('gender', userParams.gender);
+      params = params.append('zodiacSign', userParams.zodiacSign);
     }
 
     // wychodzi na to ze to 'response' to to co dostajemy od API

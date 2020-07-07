@@ -17,6 +17,40 @@
     </div>
 
     <div class="col-lg-10 col-md-8 col-sm-6">
+
+      <div class="text-center mb-4">
+        <h2 class="text-dark">Pary dla Ciebie: {{pagination.totalItems}}</h2>
+      </div>
+
+      <form class="form-inline mb-4" #form="ngForm" (ngSubmit)="loadUsers()" novalidate>
+        <div class="form-group">
+          <label for="minAge">Wiek od:</label>
+          <input type="number" class="form-control ml-1" style="width: 70px;" id="minAge" name="minAge" [(ngModel)]="userParams.minAge">
+        </div>
+        <div class="form-group ml-2">
+          <label for="maxAge">Wiek do:</label>
+          <input type="number" class="form-control ml-1" style="width: 70px;" id="maxAge" name="maxAge" [(ngModel)]="userParams.maxAge">
+        </div>
+        <div class="form-group ml-2">
+          <label for="gender">Plec:</label>
+          <select class="form-control ml-1" style="width: 130px;" id="gender" name="gender" [(ngModel)]="userParams.gender">
+            <option *ngFor="let item of genderList" [value]="item.value">
+              {{item.display}}
+            </option>
+          </select>
+        </div>
+        <div class="form-group ml-2">
+          <label for="zodiacSign">Znak zodiaku:</label>
+          <select class="form-control ml-1" style="width: 130px;" id="zodiacSign" name="zodiacSign" [(ngModel)]="userParams.zodiacSign">
+            <option *ngFor="let item of zodiacSignList" [value]="item.value">
+              {{item.display}}
+            </option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary ml-2">Zastosuj filtr</button>
+        <button type="button" class="btn btn-info ml-2" (click)="resetFilters()">Zresetuj</button>
+      </form>
+
       <div class="row">
         <div *ngFor="let item of users" class="col-lg-2 col-md-4 col-sm-6">
           <!-- {{item.username}} - {{item.age}} = {{item.city}} -->

@@ -13,8 +13,29 @@ declare let alertify: any;
 export class UserListComponent implements OnInit {
 
   users: User[];
-  page = 1;
+  user: User = JSON.parse(localStorage.getItem('user')); // pobieramy userka z local storage i parsik na obiekt bo to stringi
+  page = 1; // zeby dzialo stronnicowanie w html
   pagination: Pagination;
+  userParams: any = {}; // pusty obiekt ktory bedzie przechowywal filterki, pozniej go wyslemy w metodzie get users
+
+  // parametry ktore beda wyswietlane jako lista w htmlu
+  genderList = [{value: 'kobieta', display: 'Kobiety'},
+                {value: 'mężczyzna', display: 'Mężczyźni'}];
+
+  zodiacSignList = [{value: 'wszystkie', display: 'Wszystkie'},
+                    {value: 'Baran', display: 'Baran'},
+                    {value: 'Byk', display: 'Byk'},
+                    {value: 'Bliźnięta', display: 'Bliźnięta'},
+                    {value: 'Rak', display: 'Rak'},
+                    {value: 'Lew', display: 'Lew'},
+                    {value: 'Panna', display: 'Panna'},
+                    {value: 'Waga', display: 'Waga'},
+                    {value: 'Scorpion', display: 'Skorpion'},
+                    {value: 'Strzelec', display: 'Strzelec'},
+                    {value: 'Koziorożec', display: 'Koziorożec'},
+                    {value: 'Wodnik', display: 'Wodnik'},
+                    {value: 'Ryby', display: 'Ryby'}];
+
 
   constructor(private userService: UserService,
               private route: ActivatedRoute) { }
@@ -25,6 +46,20 @@ export class UserListComponent implements OnInit {
       this.users = data.users.result; // zeby pagination dziallo to trzeba dac .result
       this.pagination = data.users.pagination; // ustawia pagination
     });
+
+    // ustawiamy poczatkowe dane
+    this.userParams.gender = this.user.gender === 'mężczyzna' ? 'kobieta' : 'mężczyzna';
+    this.userParams.zodiacSign = 'wszystkie';
+    this.userParams.minAge = 18;
+    this.userParams.maxAge = 100;
+  }
+
+  resetFilters() {
+    this.userParams.gender = this.user.gender === 'mężczyzna' ? 'kobieta' : 'mężczyzna';
+    this.userParams.zodiacSign = 'wszystkie';
+    this.userParams.minAge = 18;
+    this.userParams.maxAge = 100;
+    this.loadUsers(); // i jeszcze zaladowanie userkow po reseciku
   }
 
   // pod tym evencikiem kryje sie nr strony z htmla
@@ -36,7 +71,7 @@ export class UserListComponent implements OnInit {
 
     // ta metoda pobiera nowych uzytkownikow i info o nowej paginacji
     loadUsers() {
-    this.userService.GetUsers(this.pagination.currentPage, this.pagination.itemsPerPage)
+    this.userService.GetUsers(this.pagination.currentPage, this.pagination.itemsPerPage, this.userParams)
       .subscribe(response => { // responsikiem jest klasa pagination bo to zwraca,u z user service
       this.users = response.result;
       this.pagination = response.pagination;

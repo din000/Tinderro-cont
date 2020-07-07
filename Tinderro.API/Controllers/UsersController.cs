@@ -28,6 +28,19 @@ namespace Tinderro.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers([FromQuery]UserParams userParams) // [FromQuerry] powoduje ze dane sa pobierane z url
         {
+            // ----------------------------- Do usuniecia zalogowanego uzytkownika z listy i do ustawiania przeciwnej plci do wyszukowania
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userFromDataBase = await _userRepo.GetUser(userId);
+
+            userParams.UserId = userId;
+
+            // ten filterek jest tu bo trzeba pobrac uzytkownika zeby sie dowiedziec o plci a po co pobierac w 2 miejsach nie?
+            if (string.IsNullOrEmpty(userParams.Gender)) // jezeli nie podal co chce wyszukac to wyszuka sie przeciwnie do jego plci
+            {
+                userParams.Gender = userFromDataBase.Gender == "mężczyzna" ? "kobieta" : "mężczyzna";
+            }
+            // -----------------------------
+
             var users = await _userRepo.GetUsers(userParams);
             var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,7 +31,22 @@ namespace Tinderro.API.Data
 
         public async Task<PageList<User>> GetUsers (UserParams userParams)
         {
-            var users = _context.users.Include(p => p.Photos);
+            var users = _context.users.Include(p => p.Photos).AsQueryable(); // asqueryable musi byc zeby filterki dzialaly
+            // -------------- filterki
+            users = users.Where(u => u.Id != 3);
+            users = users.Where(u => u.Gender == userParams.Gender);
+
+            if (userParams.MinAge != 18 || userParams.MaxAge != 100)
+            {
+                var minDate = DateTime.Today.AddYears(-userParams.MaxAge -1);
+                var maxDate = DateTime.Today.AddYears(-userParams.MinAge);
+                users = users.Where(u => u.DateOfBirth >= minDate && u.DateOfBirth <= maxDate);
+            }
+
+            if (userParams.ZodiacSign != "wszystkie")
+                users = users.Where(u => u.ZodiacSign == userParams.ZodiacSign);
+            // --------------
+
             return await PageList<User>.CreateListAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 
