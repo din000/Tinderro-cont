@@ -52,6 +52,7 @@ export class UserListComponent implements OnInit {
     this.userParams.zodiacSign = 'wszystkie';
     this.userParams.minAge = 18;
     this.userParams.maxAge = 100;
+    this.userParams.orderBy = 'lastActive';
   }
 
   resetFilters() {
@@ -59,6 +60,7 @@ export class UserListComponent implements OnInit {
     this.userParams.zodiacSign = 'wszystkie';
     this.userParams.minAge = 18;
     this.userParams.maxAge = 100;
+    this.userParams.orderBy = 'lastActive';
     this.loadUsers(); // i jeszcze zaladowanie userkow po reseciku
   }
 
@@ -75,6 +77,7 @@ export class UserListComponent implements OnInit {
       .subscribe(response => { // responsikiem jest klasa pagination bo to zwraca,u z user service
       this.users = response.result;
       this.pagination = response.pagination;
+      console.log(this.userParams.orderBy);
     }, error => {
       alertify.error('Cos poszlo nie tak'); // declare let alertify: any;
     });

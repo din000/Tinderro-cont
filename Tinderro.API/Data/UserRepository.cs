@@ -31,7 +31,7 @@ namespace Tinderro.API.Data
 
         public async Task<PageList<User>> GetUsers (UserParams userParams)
         {
-            var users = _context.users.Include(p => p.Photos).AsQueryable(); // asqueryable musi byc zeby filterki dzialaly
+            var users = _context.users.Include(p => p.Photos).OrderByDescending(u => u.LastActive).AsQueryable(); // asqueryable musi byc zeby filterki dzialaly
             // -------------- filterki
             users = users.Where(u => u.Id != 3);
             users = users.Where(u => u.Gender == userParams.Gender);
@@ -45,6 +45,21 @@ namespace Tinderro.API.Data
 
             if (userParams.ZodiacSign != "wszystkie")
                 users = users.Where(u => u.ZodiacSign == userParams.ZodiacSign);
+            // --------------
+
+            // -------------- sortowanie
+            if (!string.IsNullOrEmpty(userParams.OrderBy))
+            {
+                switch (userParams.OrderBy)
+                {
+                    case "created":
+                        users = users.OrderByDescending(u => u.Created);
+                        break;
+                    default:
+                        users = users.OrderByDescending(u => u.LastActive);
+                        break;
+                }
+            }
             // --------------
 
             return await PageList<User>.CreateListAsync(users, userParams.PageNumber, userParams.PageSize);

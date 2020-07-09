@@ -22,5 +22,8 @@ namespace Tinderro.API.Helpers
         public int MinAge { get; set; } = 18;
         public int MaxAge { get; set; } = 100;
         public string ZodiacSign { get; set; } = "wszystkie";
+
+        // sortowanie
+        public string OrderBy { get; set; } // za to mozna bedzie podstawic co sie chce, np po cenie albo jaki piernik
     }
 }
