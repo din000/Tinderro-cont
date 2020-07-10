@@ -12,7 +12,7 @@
     <img src="{{daneZUserList.photoUrl || '../../../../assets/user.png'}}" class="card-img-top" alt="{{daneZUserList.username}}">
   <ul class="list-inline text-center user-icons animate">
     <li class="list-inline-item">
-      <button class="btn-warning">
+      <button class="btn-warning" (click)="sendLike(daneZUserList.id)">
         <i class="fa fa-heart"></i>
       </button>
     </li>

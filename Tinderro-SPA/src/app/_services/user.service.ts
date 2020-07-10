@@ -78,11 +78,17 @@ export class UserService {
   }
 
   setMainPhoto(userId: number, id: number) {
-    // te nawiasy {} to przekazanie pustego obiektu?
+    // te nawiasy {} to przekazanie pustego obiektu
+     // {} - do metody post chyba trzeba wysylac jakis obiekt a ze nic nie przesylamy to przesylamy pusty obiekcik :D
     return this.http.post(this.baseUrl + 'users/' + userId + '/photos/' + id + '/setMain', {});
   }
 
   deletePhoto(userId: number, id: number) {
     return this.http.delete(this.baseUrl + 'users/' + userId + '/photos/' + id);
+  }
+
+  // {} - do metody post chyba trzeba wysylac jakis obiekt a ze nic nie przesylamy to przesylamy pusty obiekcik :D
+  sendLike(userId: number, recipientId: number) {
+    return this.http.post(this.baseUrl + 'users/' + userId + '/like/' + recipientId, {});
   }
 }

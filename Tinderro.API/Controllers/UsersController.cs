@@ -76,7 +76,7 @@ namespace Tinderro.API.Controllers
             throw new Exception("Nie masz uprawnień");
         }
 
-        [HttpPost("{id}/like/recipientId")]
+        [HttpPost("{id}/like/{recipientId}")]
         public async Task<IActionResult> Like(int id, int recipientId)
         {
              if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
