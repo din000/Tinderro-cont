@@ -35,7 +35,19 @@ namespace Tinderro.API.Data
             // -------------- filterki
             users = users.Where(u => u.Id != 3);
             users = users.Where(u => u.Gender == userParams.Gender);
-
+            
+            // -------------- lubi/ktos lubi
+            if (userParams.UserLikes) // lista kogo ja lubie
+            {
+                var userLikes = await GetUserLikes(userParams.UserId, userParams.UserLikes);
+                users = users.Where(u => userLikes.Contains(u.Id));
+            }
+            if (userParams.SomeoneLikes) // lista kto mnie lubi
+            {
+                var someOneLikesMe = await GetUserLikes(userParams.UserId, userParams.UserLikes);
+                users = users.Where(u => someOneLikesMe.Contains(u.Id));
+            }
+            // --------------
             if (userParams.MinAge != 18 || userParams.MaxAge != 100)
             {
                 var minDate = DateTime.Today.AddYears(-userParams.MaxAge -1);
@@ -74,6 +86,30 @@ namespace Tinderro.API.Data
         public async Task<Photo> GetMainPhoto(int userId)
         {
             return await _context.photos.Where(u => u.UserId == userId).FirstOrDefaultAsync(i => i.IsMain);
+        }
+
+        public async Task<Like> GetLike(int userId, int recipientId)
+        {
+            return await _context.Likes.FirstOrDefaultAsync(u => u.UserLikesId == userId && u.SomeoneLikesMeId == recipientId);
+        }
+
+
+        // Ienumerable od int bo zwracamy id, userLikes sluzy to okresliania ktora lista ma byc wyswietlona
+        // zwraca powiazane identyfikatory ir np 1 1 z tabeli Likes w bazie danych
+        private async Task<IEnumerable<int>> GetUserLikes(int id, bool userLikes)
+        {
+            // pobieramy userka o konkretnym id i dolaczamy info o laikach
+            var user = await _context.users.Include(x => x.UserLikes).Include(x => x.SomeoneLikes).FirstOrDefaultAsync(i => i.Id == id);
+
+            // w zaleznosci od boola zwracamy liste ze kogos lubimy albo liste w ktorej ktos nas lubi
+            if (userLikes)
+            {
+                return user.UserLikes.Where(u => u.SomeoneLikesMeId == id).Select(i => i.UserLikesId);
+            }
+            else
+            {
+                return user.SomeoneLikes.Where(u => u.UserLikesId == id).Select(i => i.SomeoneLikesMeId);
+            }
         }
 
 

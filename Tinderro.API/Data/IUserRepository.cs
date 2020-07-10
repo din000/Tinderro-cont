@@ -12,5 +12,6 @@ namespace Tinderro.API.Data
          Task<User> GetUser(int id);
          Task<Photo> GetPhoto(int id);
          Task<Photo> GetMainPhoto(int id);
+         Task<Like> GetLike(int userId, int recipientId); // sprawdza czy "ja" dalem juz like komus
     }
 }

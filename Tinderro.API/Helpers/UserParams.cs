@@ -25,5 +25,9 @@ namespace Tinderro.API.Helpers
 
         // sortowanie
         public string OrderBy { get; set; } // za to mozna bedzie podstawic co sie chce, np po cenie albo jaki piernik
+
+        // lubi, nie lubi
+        public bool UserLikes { get; set; } = false;
+        public bool SomeoneLikes { get; set; } = false;
     }
 }

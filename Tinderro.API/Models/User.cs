@@ -53,10 +53,11 @@ namespace Tinderro.API.Models
         public string FriendeWouldDescribeMe { get; set; }  // Przyjaciele opisali by mnie
 
 
-        // Zakładka zdjecia
+        // Zakładka zdjecia i inne KOLEKCJE/RELACJE w bazie
         public ICollection<Photo> Photos { get; set; }      // Zdjęcia użytkownika
-        // public ICollection<Like> UserLikes { get; set; }    // uzytkownik lubi
-        // public ICollection<Like> UserIsLiked { get; set; }  // uzytkownik jest lubiany
+        public ICollection<Like> UserLikes { get; set; }    // uzytkownik lubi
+        public ICollection<Like> SomeoneLikes { get; set; }  // uzytkownik jest lubiany
+
         // public ICollection<Message> MessagesSent { get; set; }  // wiadomosci wysłane
         // public ICollection<Message> MessagesRecived { get; set; }  // wiadomosci odebrane
     }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Tinderro.API.Data;
 using Tinderro.API.Dtos;
 using Tinderro.API.Helpers;
+using Tinderro.API.Models;
 
 namespace Tinderro.API.Controllers
 {
@@ -73,6 +74,36 @@ namespace Tinderro.API.Controllers
                 return NoContent();
             
             throw new Exception("Nie masz uprawnień");
+        }
+
+        [HttpPost("{id}/like/recipientId")]
+        public async Task<IActionResult> Like(int id, int recipientId)
+        {
+             if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var like = await _userRepo.GetLike(id, recipientId);
+
+            if (like != null)
+                return BadRequest("Juz lubisz tego uzytkownika");
+
+            if (await _userRepo.GetUser(recipientId) == null)
+                return NotFound();
+
+            // jezeli juz nie ma lajka i jest uzytkownik xd to robimy like
+            like = new Like
+            {
+                UserLikesId = id,
+                SomeoneLikesMeId = recipientId
+            };
+
+            _userRepo.Add<Like>(like);
+
+            if (await _userRepo.SaveAll())
+                return Ok();
+
+            return BadRequest("Nie mozna polubic uzytkownika");
+            
         }
     }
 }
