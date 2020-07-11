@@ -41,7 +41,7 @@ export class UserListComponent implements OnInit {
               private route: ActivatedRoute) { }
 
   ngOnInit() {
-    // this.loadUsers(); // przed lesolverem
+    // this.loadUsers(); // przed resolverem
     this.route.data.subscribe(data => {
       this.users = data.users.result; // zeby pagination dziallo to trzeba dac .result
       this.pagination = data.users.pagination; // ustawia pagination
@@ -67,7 +67,6 @@ export class UserListComponent implements OnInit {
   // pod tym evencikiem kryje sie nr strony z htmla
   pageChanged(event: any): void {
     this.pagination.currentPage = event; // najpierw ustawia nowa paginacje zeby pozniej wyslac info do loadusers()
-    console.log(this.pagination.currentPage);
     this.loadUsers(); // i tutaj juz ma nowa paginacje i wyswietla ja
   }
 
@@ -77,7 +76,6 @@ export class UserListComponent implements OnInit {
       .subscribe(response => { // responsikiem jest klasa pagination bo to zwraca,u z user service
       this.users = response.result;
       this.pagination = response.pagination;
-      console.log(this.userParams.orderBy);
     }, error => {
       alertify.error('Cos poszlo nie tak'); // declare let alertify: any;
     });

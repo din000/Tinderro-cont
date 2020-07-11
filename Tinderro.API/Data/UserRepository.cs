@@ -95,7 +95,7 @@ namespace Tinderro.API.Data
 
 
         // Ienumerable od int bo zwracamy id, userLikes sluzy to okresliania ktora lista ma byc wyswietlona
-        // zwraca powiazane identyfikatory ir np 1 1 z tabeli Likes w bazie danych
+        // zwraca powiazane identyfikatory ir np 1 1 z tabeli Likes w bazie danych CHYBA JEDNAK NIE XD albo tak xd
         private async Task<IEnumerable<int>> GetUserLikes(int id, bool userLikes)
         {
             // pobieramy userka o konkretnym id i dolaczamy info o laikach
@@ -104,11 +104,18 @@ namespace Tinderro.API.Data
             // w zaleznosci od boola zwracamy liste ze kogos lubimy albo liste w ktorej ktos nas lubi
             if (userLikes)
             {
-                return user.UserLikes.Where(u => u.SomeoneLikesMeId == id).Select(i => i.UserLikesId);
+                // where - no to waruneczek
+                // select to co konkretnie wybieramy czyli nie userki a Id
+                // userLikes to chyba cala klasa Like z danymi
+
+                // UserLikes JUZ MA TA LISTE !!!!!!!!!! TRZEBA TYLKO DOBRZE SELECTA DAC ZE CHCE SIE ID TEGO KOGOS A NIE SWOJE
+                return user.UserLikes.Select(i => i.SomeoneLikesMeId);
+                // return user.UserLikes.Where(u => u.SomeoneLikesMeId == id).Select(i => i.UserLikesId);
             }
             else
             {
-                return user.SomeoneLikes.Where(u => u.UserLikesId == id).Select(i => i.SomeoneLikesMeId);
+                return user.SomeoneLikes.Select(i => i.UserLikesId);
+                // return user.SomeoneLikes.Where(u => u.UserLikesId == id).Select(i => i.SomeoneLikesMeId);
             }
         }
 

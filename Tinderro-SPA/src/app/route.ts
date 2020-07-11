@@ -10,6 +10,7 @@ import { UserListResolver } from './_resolves/user-list.resolver';
 import { UserEditComponent } from './user-edit/user-edit.component';
 import { UserEDITTResolver } from './_resolves/UserEDITT.Resolver';
 import { PreventUnsaveChanges } from './_guards/prevent-unsavedChanges.guard';
+import { LikesResolver } from './_resolves/likes.resolver';
 
 
 export const appRoutes: Routes = [
@@ -22,7 +23,8 @@ export const appRoutes: Routes = [
     { path: 'uzytkownicy/edycja', component: UserEditComponent, canActivate: [AuthGuard],
                                                                 resolve: {user: UserEDITTResolver},
                                                                 canDeactivate: [PreventUnsaveChanges]},
-    { path: 'polubienia', component: LikesComponent, canActivate: [AuthGuard]},
+    { path: 'polubienia', component: LikesComponent, canActivate: [AuthGuard],
+                                                     resolve: {users_lkes: LikesResolver}},
     // , canActivate: [AuthGuard] to jest powiazane z authguard i zabezpiecza routing (tzn dziala kiedy jestesmy zalogowani)
     { path: 'wiadomosci', component: MessagesComponent, canActivate: [AuthGuard]},
     { path: '**', redirectTo: '', pathMatch: 'full'}

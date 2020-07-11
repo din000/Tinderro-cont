@@ -1,3 +1,44 @@
-<p>
-  likes works!
-</p>
+<div class="text-center mt-3">
+  <h2>{{likesParam === 'UserLikes' ? 'Członkowie, których lubię' : 'Członkowie, którzy mnie lubią'}}
+      : {{pagination.totalItems}}</h2>
+</div>
+
+<div class="container mt-3">
+
+  <div class="text-center mb-3">
+    <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="likesParam">
+      <label ngbButtonLabel class="btn-primary mr-2">
+        <input ngbButton type="radio" value="UserLikes" (click)="loadUsersThatILike()"> Członkowie, których lubię 
+      </label>
+      <label ngbButtonLabel class="btn-primary">
+        <input ngbButton type="radio" value="SomeoneLikes" (click)="loadUsersWhichLikesMe()"> Członkowie, którzy mnie lubią
+      </label>
+    </div>
+  </div>
+  
+  <br>
+
+  <div class="row">
+    <div *ngFor="let user of users" class="col-sm-6 col-md-4 col-lg-4 col-xl-2">
+      <!-- daneZUserList TO JUZ NIE SA dane z userlist tylko z LIKES (nie moglem zmienic juz nazwy bo mi sie nei chcialo) -->
+      <app-user-card [daneZUserList]="user"></app-user-card>
+    </div>
+  </div>
+
+</div>
+
+<div class="d-flex justify-content-center">
+  <!-- <pagination [boundaryLinks]="true" 
+              [totalItems]="pagination.totalItems" 
+              [itemsPerPage]="pagination.itemsPerPage" 
+              [(ngModel)]="pagination.currentPage"
+              (pageChanged)="pageChanged($event)" 
+              previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+  </pagination> -->
+   <!-- pod tym evencikiem kryje sie nr strony -->
+   <ngb-pagination [collectionSize]="pagination.totalItems" 
+   [(page)]="pagination.currentPage" 
+   [pageSize]="pagination.itemsPerPage"                    
+   (pageChange)="pageChanged($event)" 
+   aria-label="Default pagination"></ngb-pagination>
+</div>
