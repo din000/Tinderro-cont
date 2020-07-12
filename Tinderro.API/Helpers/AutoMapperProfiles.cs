@@ -33,6 +33,7 @@ namespace Tinderro.API.Helpers
             CreateMap<PhotoForAddDto, Photo>();
             CreateMap<Photo, PhotoForReturnDto>();
             CreateMap<UserForRegisterDto, User>(); // po rozszerzeniu danych do rejestracji
+            CreateMap<MessageForCreationDTO, Message>().ReverseMap(); // dodajemy tez odwrotne mapowanie
         }
     }
 }

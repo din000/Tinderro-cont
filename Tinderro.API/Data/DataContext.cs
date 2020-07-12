@@ -13,8 +13,10 @@ namespace Tinderro.API.Data
         public DbSet<User> users { get; set; }
         public DbSet<Photo> photos { get; set; }
         public DbSet<Like> Likes { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
-        // metoda tworzy relacje wiele do wielu i ustawia klucze glowne
+        // metoda tworzy relacje wiele do wielu i ustawia klucze glowne 
+        // i ta metoda mozna stosowac do KAZDEJ TABELI
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Like>().HasKey(k => new { k.UserLikesId, k.SomeoneLikesMeId}); // ustawienie kluczy glownych do tabeli Likes
@@ -25,7 +27,13 @@ namespace Tinderro.API.Data
 
             // dopelnienie do stworzenia relacji wiele do wielu
             builder.Entity<Like>().HasOne(u => u.SomeoneLikes).WithMany(u => u.SomeoneLikes)
-                                  .HasForeignKey(u => u.SomeoneLikesMeId).OnDelete(DeleteBehavior.Restrict);            
+                                  .HasForeignKey(u => u.SomeoneLikesMeId).OnDelete(DeleteBehavior.Restrict);  
+
+            builder.Entity<Message>().HasOne(u => u.Sender).WithMany(u => u.MessagesSent)
+                                  .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Message>().HasOne(u => u.Recipient).WithMany(u => u.MessagesRecived)
+                                  .OnDelete(DeleteBehavior.Restrict);   
         }
     }
     
