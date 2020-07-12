@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -37,6 +38,34 @@ namespace Tinderro.API.Controllers
                 return NotFound();
 
             return Ok(messageFromDataBase);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetMessagesForUser(int userId, [FromQuery]MessagesParams messagesParams)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            messagesParams.UserId = userId;
+            var messagesFromDataBase = await _repository.GetAllMessagesForUser(messagesParams);
+            var messageToReturn = _mapper.Map<IEnumerable<MessageToReturnDto>>(messagesFromDataBase);
+
+            Response.AddPagination(messagesFromDataBase.CurrentPage, messagesFromDataBase.PageSize, 
+                                   messagesFromDataBase.TotalCount, messagesFromDataBase.TotalPages);
+
+            return Ok(messageToReturn);
+        }
+
+        [HttpGet("thread/{recipientId}")] // tutaj dajemy recipient id BO w glownym url mamy juz userId !!!
+        public async Task<IActionResult> GetMessageThread(int userId, int recipientId)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+            
+            var messagesFromDataBase = await _repository.GetMessagesThread(userId, recipientId);
+            var messagesToReturn = _mapper.Map<IEnumerable<MessageToReturnDto>>(messagesFromDataBase);
+
+            return Ok(messagesToReturn);
         }
 
         [HttpPost]

@@ -124,14 +124,42 @@ namespace Tinderro.API.Data
             return await _context.Messages.FirstOrDefaultAsync(m => m.Id == id);
         }
 
-        public Task<PageList<Message>> GetAllMessagesForUser()
+        public async Task<PageList<Message>> GetAllMessagesForUser(MessagesParams messagesParams)
         {
-            throw new NotImplementedException();
+            var messages = _context.Messages.Include(u => u.Sender).ThenInclude(p => p.Photos)
+                                                  .Include(u => u.Recipient).ThenInclude(p => p.Photos)
+                                                  .AsQueryable();
+
+            // switch zwraca albo wiadomosci w srzynce nadawczej, alno przychodzace albo wszystkie
+            switch (messagesParams.MessageContainer)
+            {
+                case "Inbox":
+                    messages = messages.Where(u => u.RecipientId == messagesParams.UserId);
+                    break;
+                case "Outbox":
+                    messages = messages.Where(u => u.SenderId == messagesParams.UserId);
+                    break;
+                default: // default czyli NIEPRZECZYTANE wiadomosci
+                    messages = messages.Where(u => u.RecipientId == messagesParams.UserId && u.IsRead == false);
+                    break;
+            }
+
+            // sortowanie po dacie
+            messages.OrderByDescending(d => d.DateSent);
+
+            return await PageList<Message>.CreateListAsync(messages, messagesParams.PageNumber, messagesParams.PageSize);
         }
 
-        public Task<IEnumerable<Message>> GetMessagesThread(int userId, int recipientId)
+        public async Task<IEnumerable<Message>> GetMessagesThread(int userId, int recipientId)
         {
-            throw new NotImplementedException();
+            var messages = await _context.Messages.Include(u => u.Sender).ThenInclude(p => p.Photos)
+                                                  .Include(u => u.Recipient).ThenInclude(p => p.Photos)
+                                                  .Where(m => m.RecipientId == userId && m.SenderId == recipientId && m.SenderDeleted == false
+                                                  || m.RecipientId == recipientId && m.SenderId == userId && m.SenderDeleted == false)
+                                                  .OrderByDescending(m => m.DateSent)
+                                                  .ToListAsync();
+            
+            return messages;
         }
 
 

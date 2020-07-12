@@ -16,7 +16,7 @@ namespace Tinderro.API.Data
 
          //messages
          Task<Message> GetMessage(int id);
-         Task<PageList<Message>> GetAllMessagesForUser();
+         Task<PageList<Message>> GetAllMessagesForUser(MessagesParams messagesParams);
          Task<IEnumerable<Message>> GetMessagesThread(int userId, int recipientId); // zwraca wiadomosci tak jak np w messengerze ladnie i pieknie
 
     }
