@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { User } from '../_models/user';
 import { Pagination, PaginationResult } from '../_models/pagination';
 import { map } from 'rxjs/operators';
+import { Message } from '../_models/Message';
 
 // to bylo do autoryzacji
 // const httpOptions = {
@@ -62,7 +63,7 @@ export class UserService {
     // wychodzi na to ze to 'response' to to co dostajemy od API
     // params to parametry ktore zawieraja strone i ilosc na stronie
     return this.http.get<User[]>(this.baseUrl + 'users', { observe: 'response', params })
-      .pipe(map(response => { // return z API?
+      .pipe(map(response => { // return z API o nazwie Response?
         paginationResult.result = response.body; // pod body kryje sie chyba WSZYSTKO co chcemy wyswietlic czyli uzytkownicy
 
         // parsik na obiekt bo sa stringi, w '' podajemy nazwe headera
@@ -98,5 +99,30 @@ export class UserService {
   // {} - do metody post chyba trzeba wysylac jakis obiekt a ze nic nie przesylamy to przesylamy pusty obiekcik :D
   sendLike(userId: number, recipientId: number) {
     return this.http.post(this.baseUrl + 'users/' + userId + '/like/' + recipientId, {});
+  }
+
+  // messageContainer = Inbox / Outbox A JEZELI NIE MA to default czyli Nieprzeczytane xd
+  getMessages(userId: number, page?, itemsPerPage?, messageContainer?) {
+    const paginationResult: PaginationResult<Message[]> = new PaginationResult<Message[]>();
+    let params = new HttpParams();
+
+    // messageContainer = Inbox / Outbox A JEZELI NIE MA to default czyli Nieprzeczytane xd
+    params = params.append('messageContainer', messageContainer);
+
+    if (page != null && itemsPerPage != null) {
+      params = params.append('pageNumber', page);
+      params = params.append('pageSize', itemsPerPage);
+    }
+
+    return this.http.get<Message[]>(this.baseUrl + 'users/' + userId + '/messages', { observe: 'response', params})
+      .pipe(map(response => {
+        paginationResult.result = response.body;
+
+        if (response.headers.get('Pagination') != null) {
+          paginationResult.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+
+        return paginationResult;
+      }));
   }
 }

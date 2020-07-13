@@ -11,6 +11,7 @@ import { UserEditComponent } from './user-edit/user-edit.component';
 import { UserEDITTResolver } from './_resolves/UserEDITT.Resolver';
 import { PreventUnsaveChanges } from './_guards/prevent-unsavedChanges.guard';
 import { LikesResolver } from './_resolves/likes.resolver';
+import { MessageResolver } from './_resolves/messages.resolver';
 
 
 export const appRoutes: Routes = [
@@ -26,6 +27,7 @@ export const appRoutes: Routes = [
     { path: 'polubienia', component: LikesComponent, canActivate: [AuthGuard],
                                                      resolve: {users_lkes: LikesResolver}},
     // , canActivate: [AuthGuard] to jest powiazane z authguard i zabezpiecza routing (tzn dziala kiedy jestesmy zalogowani)
-    { path: 'wiadomosci', component: MessagesComponent, canActivate: [AuthGuard]},
+    { path: 'wiadomosci', component: MessagesComponent, canActivate: [AuthGuard],
+                                                        resolve: {messages: MessageResolver}},
     { path: '**', redirectTo: '', pathMatch: 'full'}
 ];

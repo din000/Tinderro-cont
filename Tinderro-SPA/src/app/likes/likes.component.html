@@ -6,12 +6,12 @@
 <div class="container mt-3">
 
   <div class="text-center mb-3">
-    <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="likesParam">
+    <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic">
       <label ngbButtonLabel class="btn-primary mr-2">
-        <input ngbButton type="radio" value="UserLikes" (click)="loadUsersThatILike()"> Członkowie, których lubię 
+        <input ngbButton type="radio" (click)="loadUsersThatILike()"> Członkowie, których lubię 
       </label>
       <label ngbButtonLabel class="btn-primary">
-        <input ngbButton type="radio" value="SomeoneLikes" (click)="loadUsersWhichLikesMe()"> Członkowie, którzy mnie lubią
+        <input ngbButton type="radio" (click)="loadUsersWhichLikesMe()"> Członkowie, którzy mnie lubią
       </label>
     </div>
   </div>

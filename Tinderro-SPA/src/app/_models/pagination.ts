@@ -6,6 +6,6 @@ export interface Pagination {
 }
 
 export class PaginationResult<T> {
-    result: T; // za T moze wpasc cokolwiek
+    result: T; // za T moze wpasc cokolwiek a przewaznie wpada lista uzytkownikow albo wiadomosci :D
     pagination: Pagination;
 }

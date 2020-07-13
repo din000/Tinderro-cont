@@ -36,7 +36,7 @@ namespace Tinderro.API.Controllers
             userParams.UserId = userId;
 
             // ten filterek jest tu bo trzeba pobrac uzytkownika zeby sie dowiedziec o plci a po co pobierac w 2 miejsach nie?
-            if (string.IsNullOrEmpty(userParams.Gender)) // jezeli nie podal co chce wyszukac to wyszuka sie przeciwnie do jego plci
+            if (string.IsNullOrEmpty(userParams.Gender)) // jezeli nie podal co chce wyszukac to wyszukaa sie przeciwnie do jego plci
             {
                 userParams.Gender = userFromDataBase.Gender == "mężczyzna" ? "kobieta" : "mężczyzna";
             }
