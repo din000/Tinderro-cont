@@ -140,7 +140,7 @@
           <li ngbNavItem>
             <a ngbNavLink>Wiadomosci</a>
             <ng-template ngbNavContent>      
-              Tutaj beda wiadomosci             
+              <app-user-messages [recipientId]="user.id"></app-user-messages>         
             </ng-template>
           </li>
 
