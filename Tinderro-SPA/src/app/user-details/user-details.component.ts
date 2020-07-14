@@ -3,6 +3,9 @@ import { User } from '../_models/user';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../_services/user.service';
 import { Photo } from '../_models/photo';
+import { NgbNav } from '@ng-bootstrap/ng-bootstrap';
+import { asLiteral } from '@angular/compiler/src/render3/view/util';
+import { AuthService } from '../_services/auth.service';
 declare let alertify: any;
 
 @Component({
@@ -14,9 +17,11 @@ export class UserDetailsComponent implements OnInit {
 
   user: User;
   images: Photo[];
+  activeTab = 1; // to jest ktora zakladka odpala sie jako PIERWSZA
 
   constructor(private userService: UserService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private authService: AuthService) { }
 
   ngOnInit() {
       // this.loadUser(); // bez resolvera
@@ -25,6 +30,15 @@ export class UserDetailsComponent implements OnInit {
       });
 
       this.images = this.user.photos;
+
+      // to jest przesylane z messages HTML z [queryParams]
+      // i tu uwaga! to co tam przeslemy np XYZ to tutaj po kropce tez jest ten parametr pod XYZ
+      this.route.queryParams.subscribe(paramsik => {
+        this.activeTab = parseInt(paramsik.activeTab, 10) > 0 ? parseInt(paramsik.activeTab, 10) : 1; // miszczowski parsik na inta
+      });
+  }
+
+
   }
 
   // ta metoda miala pobieraz zdjecia ale zamieilem to na 1 linijke kodu XD
@@ -51,4 +65,5 @@ export class UserDetailsComponent implements OnInit {
   //       alertify.error('Coś poszło nie tak');
   //     });
   // }
-}
+
+

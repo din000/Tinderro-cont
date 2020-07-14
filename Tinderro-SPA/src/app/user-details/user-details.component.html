@@ -32,7 +32,7 @@
         <div class="card-fouter">
           <div class="btn-group d-flex">
             <button class="btn btn-success btn-sm w-50">Like!</button>
-            <button class="btn btn-primary btn-sm w-50">Wiadomosc</button>
+            <button class="btn btn-primary btn-sm w-50" (click)="nav.select(5)">Wiadomosc</button>
           </div>
         </div>
       </div>
@@ -42,8 +42,8 @@
     <div class="col-sm-8">
       <div class="card">
 
-        <ul ngbNav #nav="ngbNav" class="nav-tabs">
-          <li ngbNavItem>
+        <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs">
+          <li [ngbNavItem]="1">
             <a ngbNavLink>Ogolne</a>
             <ng-template ngbNavContent>
               <table class="user-table text-dark mt-3" style="width: 100%;">
@@ -90,7 +90,7 @@
               </table>
             </ng-template>
           </li>
-          <li ngbNavItem>
+          <li [ngbNavItem]="2">
             <a ngbNavLink>O mnie</a>
             <ng-template ngbNavContent>
               <h5 class="user-table-td mt-3" >Motto życiowe</h5>
@@ -103,7 +103,7 @@
               <p class="user-table-td" >{{user.lookingFor}}</p>
             </ng-template>
           </li>
-          <li ngbNavItem>
+          <li [ngbNavItem]="3">
             <a ngbNavLink>Zainteresowania</a>
             <ng-template ngbNavContent>
               <h5 class="user-table-td mt-3" >Zainteresowania</h5>
@@ -118,7 +118,7 @@
               <p class="user-table-td" >{{user.music}}</p>
             </ng-template>
           </li>
-          <li ngbNavItem>
+          <li [ngbNavItem]="4">
             <a ngbNavLink>Zdjecia</a>
             <ng-template ngbNavContent>
 
@@ -137,7 +137,7 @@
             </ng-template>
           </li>
           
-          <li ngbNavItem>
+          <li [ngbNavItem]="5">
             <a ngbNavLink>Wiadomosci</a>
             <ng-template ngbNavContent>      
               <app-user-messages [recipientId]="user.id"></app-user-messages>         
