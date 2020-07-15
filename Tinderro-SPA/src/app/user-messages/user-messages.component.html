@@ -45,10 +45,15 @@
 
   <!-- wysylanie wiadomosci -->
   <div class="card-footer">
-    <form action="">
+    <form #messageForm="ngForm" (ngSubmit)="messageForm.valid && sendMessage()">
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="Wyslij wiadomosc">
-        <button class="btn btn-primary">Wyslij</button>
+        <input type="text"
+               class="form-control"
+               placeholder="Wyslij wiadomosc"
+               [(ngModel)]="newMessage.content"
+               name="content"
+               required>
+        <button class="btn btn-primary" [disabled]="!messageForm.valid">Wyslij</button>
       </div>    
     </form>
   </div>

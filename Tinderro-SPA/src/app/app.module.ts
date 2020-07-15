@@ -53,7 +53,7 @@ export function TokenGetter() { // to jest do globalnej autoryzacji i juz jest o
       UserEditComponent,
       PhotosComponent,
       TimeAgoPipe,
-      UserMessagesComponent
+      UserMessagesComponent,
    ],
    imports: [
       BrowserModule,

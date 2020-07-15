@@ -17,7 +17,6 @@ export class RegisterComponent implements OnInit {
   // model: any = {}; // dane chyba brane sa z htmla i w klamrach mozemy wstawiac co chcemy :D // to bylo przed rozbudowaniem rejestracji
   user: User;
 
-
   registerForm: FormGroup;
 
   constructor(private authService: AuthService,

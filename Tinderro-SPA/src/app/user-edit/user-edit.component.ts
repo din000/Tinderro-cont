@@ -5,6 +5,7 @@ import { AlertifyService } from '../_services/alertify.service';
 import { NgForm } from '@angular/forms';
 import { UserService } from '../_services/user.service';
 import { AuthService } from '../_services/auth.service';
+import { Message } from '../_models/Message';
 
 @Component({
   selector: 'app-user-edit',

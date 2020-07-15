@@ -76,7 +76,7 @@ namespace Tinderro.API.Controllers
 
             messageForCreationDto.SenderId = userId; // ustawiamy id nadawcy
 
-            var recipient = _repository.GetUser(messageForCreationDto.RecipientId); // odbiorca
+            var recipient = _repository.GetUser(messageForCreationDto.RecipientId); // odbiorcaa
 
             if (recipient == null)
                 return BadRequest("Nie mozna znalezc odbiorcy");
