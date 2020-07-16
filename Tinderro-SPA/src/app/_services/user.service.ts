@@ -138,4 +138,9 @@ export class UserService {
   deleteMessage(messageId: number, userId: number) {
     return this.http.post(this.baseUrl + 'users/' + userId + '/messages/' + messageId, {});
   }
+
+  // subscribe bo potem w komponencie damy pipe
+  readMessage(userId: number, messageId: number) {
+    return this.http.post(this.baseUrl + 'users/' + userId + '/messages/' + messageId + '/read', {}).subscribe();
+  }
 }

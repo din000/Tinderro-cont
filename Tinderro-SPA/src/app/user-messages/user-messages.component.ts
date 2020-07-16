@@ -6,6 +6,7 @@ import { Message } from '../_models/Message';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../_models/user';
+import { tap } from 'rxjs/operators';
 
 
 @Component({
@@ -29,7 +30,16 @@ export class UserMessagesComponent implements OnInit {
   }
 
   loadMessages() {
+    const currentlyUserId = parseInt(this.authService.decodedToken.nameid, 10);
     this.userService.getMessageThread(this.authService.decodedToken.nameid, this.recipientId)
+      .pipe(tap(messages => {
+        // tslint:disable-next-line: prefer-for-of
+        for (let i = 0; i < messages.length; i++) {
+          if (messages[i].isRead === false && messages[i].recipientId === currentlyUserId){
+            this.userService.readMessage(currentlyUserId, messages[i].id);
+          }
+        }
+      }))
       .subscribe(response => {
         this.messages = response;
       }, error => {
