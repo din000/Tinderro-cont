@@ -134,13 +134,13 @@ namespace Tinderro.API.Data
             switch (messagesParams.MessageContainer)
             {
                 case "Inbox":
-                    messages = messages.Where(u => u.RecipientId == messagesParams.UserId);
+                    messages = messages.Where(u => u.RecipientId == messagesParams.UserId && u.RecipientDeleted == false);
                     break;
                 case "Outbox":
-                    messages = messages.Where(u => u.SenderId == messagesParams.UserId);
+                    messages = messages.Where(u => u.SenderId == messagesParams.UserId && u.SenderDeleted == false);
                     break;
                 default: // default czyli NIEPRZECZYTANE wiadomosci
-                    messages = messages.Where(u => u.RecipientId == messagesParams.UserId && u.IsRead == false);
+                    messages = messages.Where(u => u.RecipientId == messagesParams.UserId && u.IsRead == false && u.RecipientDeleted == false);
                     break;
             }
 

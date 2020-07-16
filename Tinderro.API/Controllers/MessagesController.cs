@@ -71,12 +71,23 @@ namespace Tinderro.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateMessage(int userId, MessageForCreationDTO messageForCreationDto)
         {
+            // WAZNEEEEEEEEE 
+            // zeby message mial wszystkie dane to trzeba pobrac W TEJ METODZIE sendera i recipienta
+            // message sobie SAM juz pobierze ch za pomoca powiazanych ID
+            // a te powiazania okreslilismy w modelach !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+            // ten sender jest pobierany zeby powiazac go z message za pomoca ID userka !!!!!!!!!!!!!
+            var sender = await _repository.GetUser(userId); // HIT ta linijka robi ze WIDAC zdj w wiadomosciach bez odswiezania XDXDXDXDXDXD
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
 
             messageForCreationDto.SenderId = userId; // ustawiamy id nadawcy
 
-            var recipient = _repository.GetUser(messageForCreationDto.RecipientId); // odbiorcaa
+            // ten recipient jest pobierany zeby powiawzac go z message za pomoca ID userka !!!!!!!!!!!!!!!!!!!!!
+            var recipient = await _repository.GetUser(messageForCreationDto.RecipientId); // odbiorcaa
 
             if (recipient == null)
                 return BadRequest("Nie mozna znalezc odbiorcy");
@@ -85,12 +96,37 @@ namespace Tinderro.API.Controllers
 
             _repository.Add(message); // mozna dodac do bazy poniewaz jest juz zmapowane na cos co baza dokladnie zna czyli message
 
-            var messageToreturn = _mapper.Map<MessageForCreationDTO>(message);
+            
+            var messageToreturn = _mapper.Map<MessageToReturnDto>(message);
+            if (await _repository.SaveAll())     
+                return CreatedAtRoute("GetMessage", new { userId, id = message.Id }, messageToreturn);
+    
+            throw new Exception("Utworzenie wiadomosci nie powiodlo sie przy zapisie");
+        }
+
+        [HttpPost("{messageId}")]
+        public async Task<IActionResult> DeleteMessage(int messageId, int userId)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var messageFromDataBase = await _repository.GetMessage(messageId);
+
+            // jezeli polecenie wyda odbiorca to usunie sie u odbiorcy i analogicznie nizej
+            if (messageFromDataBase.RecipientId == userId)
+                messageFromDataBase.RecipientDeleted = true;
+
+            if (messageFromDataBase.SenderId == userId)
+                messageFromDataBase.SenderDeleted = true;
+
+            // jezeli oboje usuna ta samoa wiadomosc to:
+            if (messageFromDataBase.RecipientDeleted == true && messageFromDataBase.SenderDeleted == true)
+                _repository.Delete(messageFromDataBase);
 
             if (await _repository.SaveAll())
-                return CreatedAtRoute("GetMessage", new { userId, id = message.Id }, messageToreturn);
-            
-            throw new Exception("Utworzenie wiadomosci nie powiodlo sie przy zapisie");
+                return NoContent();
+
+            throw new Exception("Blad podczas usuwania wiadomosci");
         }
     }
 }

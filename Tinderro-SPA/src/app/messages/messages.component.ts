@@ -94,4 +94,16 @@ export class MessagesComponent implements OnInit {
           this.alertify.error(error);
         });
   }
+
+   // messageId bedzie z htmla
+   deleteMessage(messageId: number) {
+    this.alertify.confirm('Czy usunac wiadomosc?', () => {
+      this.userService.deleteMessage(messageId, this.authService.decodedToken.nameid).subscribe(() => {
+        this.messages.splice(this.messages.findIndex(m => m.id === messageId), 1);
+        this.alertify.success('Wiadomosc usunieta');
+      }, error => {
+        this.alertify.error('Nie mozna usunac wiadomosci');
+      });
+    });
+  }
 }
