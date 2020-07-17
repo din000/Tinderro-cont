@@ -65,7 +65,40 @@ namespace Tinderro.API
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                 app.UseExceptionHandler(builder => 
+                {
+                    builder.Run(async context => 
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+                        var error = context.Features.Get<IExceptionHandlerFeature>();
+
+                        if (error != null)
+                        {
+                            context.Response.AddApplicationError(error.Error.Message);
+                            await context.Response.WriteAsync(error.Error.Message);
+                        }
+                    });
+                });
+            }
+            else
+            {
+                            // tryb produkcyjny
+            // obsluga bledow
+                // context to chodzi o http context
+                app.UseExceptionHandler(builder => {
+                    builder.Run(async context => {
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+                        var error = context.Features.Get<IExceptionHandlerFeature>();
+
+                        if(error != null)
+                        {
+                            context.Response.AddApplicationError(error.Error.Message); // to sprawi ze w f12 beda dostepne bledy
+                            await context.Response.WriteAsync(error.Error.Message);
+                        }
+                    });
+                });
             }
             
             seeder.SeedUsers(); // tutaj odpalamy metode z Seed

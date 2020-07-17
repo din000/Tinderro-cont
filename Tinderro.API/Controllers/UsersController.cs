@@ -41,7 +41,7 @@ namespace Tinderro.API.Controllers
                 userParams.Gender = userFromDataBase.Gender == "mężczyzna" ? "kobieta" : "mężczyzna";
             }
             // -----------------------------
-
+ 
             var users = await _userRepo.GetUsers(userParams);
             var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
 
@@ -85,7 +85,7 @@ namespace Tinderro.API.Controllers
             var like = await _userRepo.GetLike(id, recipientId);
 
             if (like != null)
-                return BadRequest("Juz lubisz tego uzytkownika");
+                throw new Exception("Juz lubisz tego uzytkownika");
 
             if (await _userRepo.GetUser(recipientId) == null)
                 return NotFound();

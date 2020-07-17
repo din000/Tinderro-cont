@@ -17,6 +17,7 @@ namespace Tinderro.API.Helpers
             return age;
         }
 
+        // w startupie jest dodana oobsluga bledow i jest wykorzystywana ta metoda, dodaje ona info jak wcisniemy f12 na stronce
         public static void AddApplicationError(this HttpResponse response, string message)
         {
             response.Headers.Add("Application-Error", message);

@@ -32,6 +32,7 @@ import { TimeAgoPipe } from './_pipes/time-ago-pipe';
 import { LikesResolver } from './_resolves/likes.resolver';
 import { MessageResolver } from './_resolves/messages.resolver';
 import { UserMessagesComponent } from './user-messages/user-messages.component';
+import { ErrorInterceptorProvider } from './_services/error.interceptor';
 
 
 export function TokenGetter() { // to jest do globalnej autoryzacji i juz jest ok z odswiezaniem
@@ -97,7 +98,8 @@ export function TokenGetter() { // to jest do globalnej autoryzacji i juz jest o
       AlertifyService,
       PreventUnsaveChanges,
       LikesResolver,
-      MessageResolver
+      MessageResolver,
+      ErrorInterceptorProvider
    ],
    bootstrap: [
       AppComponent

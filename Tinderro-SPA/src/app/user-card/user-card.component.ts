@@ -25,6 +25,7 @@ export class UserCardComponent implements OnInit {
       .subscribe(response => {
         this.alertify.success('Polubiles ' + this.daneZUserList.username);
       }, error => {
+        console.log(error);
         this.alertify.error(error);
       });
   }

@@ -34,10 +34,10 @@
   <div class="form-group">
     <label class="mr-3">Jestem:</label>
       <label class="radio-inline">
-        <input class="mr-1" type="radio" value="male" formControlName="gender"> Mężczyzną
+        <input class="mr-1" type="radio" value="mężczyzna" formControlName="gender"> Mężczyzną
       </label>
         <label class="radio-inline ml-3">
-        <input class="mr-1" type="radio" value='female' formControlName="gender"> Kobietą
+        <input class="mr-1" type="radio" value='kobieta' formControlName="gender"> Kobietą
       </label>
   </div>
   
@@ -87,9 +87,16 @@
   </div>
 
   <div class="form-group">
-    <input class="form-control" placeholder="Znak zodiaku" formControlName="zodiacSign"
+    <select class="form-control" formControlName="zodiacSign" (click)="zodiacSign=false">
+      <option *ngFor="let item of zodiacSignList" [value]="item.value">
+        {{item.display}}
+      </option>
+    </select>
+    <div class="text-danger" *ngIf="zodiacSign">Wybierz znak zodiaku</div>
+
+    <!-- <input class="form-control" placeholder="Znak zodiaku" formControlName="zodiacSign"
            [ngClass]="{ 'is-invalid': registerForm.get('zodiacSign').errors && registerForm.get('zodiacSign').touched }">
-    <div class="invalid-feedback">Znak zodiaku jest wymagany</div>
+    <div class="invalid-feedback">Znak zodiaku jest wymagany</div> -->
   </div>
 
   <div class="form-group">
@@ -101,7 +108,7 @@
   <div class="form-group">
     <input class="form-control" placeholder="Miasto" formControlName="city"
            [ngClass]="{ 'is-invalid': registerForm.get('city').errors && registerForm.get('city').touched }">
-    <div class="invalid-feedback">Znak zodiaku jest wymagany</div>
+    <div class="invalid-feedback">Miasto jest wymagane</div>
   </div>
 
 
@@ -121,6 +128,3 @@
 
 <!-- <p>Wartosci: {{registerForm.value | json}}</p> json to taki parsik z object na sting i odwrotnie :O
 <p>Status: {{registerForm.valid }}</p> -->
-
-
-
