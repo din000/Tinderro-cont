@@ -65,21 +65,7 @@ namespace Tinderro.API
         {
             if (env.IsDevelopment())
             {
-                 app.UseExceptionHandler(builder => 
-                {
-                    builder.Run(async context => 
-                    {
-                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-                        var error = context.Features.Get<IExceptionHandlerFeature>();
-
-                        if (error != null)
-                        {
-                            context.Response.AddApplicationError(error.Error.Message);
-                            await context.Response.WriteAsync(error.Error.Message);
-                        }
-                    });
-                });
+                 app.UseDeveloperExceptionPage();
             }
             else
             {
@@ -112,11 +98,24 @@ namespace Tinderro.API
             app.UseRouting();
             
             app.UseAuthorization();
+
+            // te 2 linijki + app.UseEndpoints pozwalaja odpalic to co sie zrobilo w angularze bez odpalania angulara
+            // wczesniej w angularze za pomoca ng build i odpowiednies sciezki w angular.json przenieslismy pliki to wwwroot w API
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=NaszaNazwa_Fallback}/{action=Index}/{id?}");
+
+                endpoints.MapFallbackToController("Index", "NaszaNazwa_Fallback");
             });
+            // app.UseEndpoints(endpoints =>
+            // {
+            //     endpoints.MapControllers();
+            // });
             // app.UseEndpoints(endpoints =>
             // {
             //     endpoints.MapDefaultControllerRoute(); // MapControllers();
