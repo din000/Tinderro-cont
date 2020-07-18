@@ -6,6 +6,7 @@ import { Photo } from '../_models/photo';
 import { NgbNav } from '@ng-bootstrap/ng-bootstrap';
 import { asLiteral } from '@angular/compiler/src/render3/view/util';
 import { AuthService } from '../_services/auth.service';
+import { AlertifyService } from '../_services/alertify.service';
 declare let alertify: any;
 
 @Component({
@@ -21,6 +22,7 @@ export class UserDetailsComponent implements OnInit {
 
   constructor(private userService: UserService,
               private route: ActivatedRoute,
+              private alertify2: AlertifyService,
               private authService: AuthService) { }
 
   ngOnInit() {
@@ -35,6 +37,16 @@ export class UserDetailsComponent implements OnInit {
       // i tu uwaga! to co tam przeslemy np XYZ to tutaj po kropce tez jest ten parametr pod XYZ
       this.route.queryParams.subscribe(paramsik => {
         this.activeTab = parseInt(paramsik.activeTab, 10) > 0 ? parseInt(paramsik.activeTab, 10) : 1; // miszczowski parsik na inta
+      });
+  }
+
+  sendLike(recipientId: number) {
+    this.userService.sendLike(this.authService.decodedToken.nameid, recipientId)
+      .subscribe(response => {
+        this.alertify2.success('Polubiles ' + this.user.username);
+      }, error => {
+        console.log(error);
+        this.alertify2.error(error);
       });
   }
 
